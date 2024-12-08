@@ -11,10 +11,10 @@ assignees: ''
 **J'ai besoin de** [fonctionnalité]
 **Afin de** [bénéfice]
 
-###Détails et hypothèses
-*[documentez ce que vous savez]
+### Détails et hypothèses
+* [documentez ce que vous savez]
 
-###Critères d'acceptation
+### Critères d'acceptation
 ```gherkin
 Étant donné [un contexte donné]  
 Lorsque [une certaine action est effectuée]  
