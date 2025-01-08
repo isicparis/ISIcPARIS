@@ -523,7 +523,7 @@ header .main-header .flex .icons>*:hover {
 .home {
     height:100vh;
     min-height: 70vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('/home/grami/mes_Mentage/project_plantaneuse/public/img/home-bg.jpg') no-repeat center center fixed;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('/../public/img/home-bg.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;
