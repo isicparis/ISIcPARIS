@@ -6,8 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ContactController;
-
-
+use App\Http\Controllers\AboutController;
 
 
 
@@ -15,7 +14,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/order', [OrderController::class, 'index'])->name('order');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-Route::view('/about', 'about')->name('about');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::view('/cart', 'cart')->name('cart');
 
 Route::get('/dashboard', function () {
@@ -27,5 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
 
 require __DIR__.'/auth.php';
