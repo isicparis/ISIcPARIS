@@ -1,9 +1,5 @@
 <x-app-layout>   
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            
-        </h2>
-    </x-slot>
+   
     <div class="heading">
         <h3>shop</h3>
         <p><a href="home.php">home</a> / shop</p>
