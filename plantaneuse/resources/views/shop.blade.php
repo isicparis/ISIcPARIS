@@ -9,28 +9,20 @@
         <p><a href="home.php">home</a> / shop</p>
     </div>
     
-
     <div class="search-bar">
-        <button class="btn btn-outline-secondary">
-        <i class="iconss bi bi-sliders"></i>
-        <!-- Search Icon -->
-        <i class="iconss bi bi-search"></i>
-
-        <!-- Heart Icon -->
-        <i class="icons bi bi-heart"></i>
-
-        <!-- Trash (Delete) Icon -->
-        <i class="icons bi bi-trash"></i>
-
+        <button class="btn btn-outline-secondary">    
+            <img src="{{ asset('img/settings.png') }}" alt="" class ="iconss">        
         </button>
-        <input
+        <form action="" method="post" class="">
+            <input
         type="text"
         class="form-control"
         placeholder="Rechercher une plante"
         aria-label="Rechercher une plante">
-        <button class="btn btn-primary">
-        <i class="bi bi-search"></i>
-        </button>
+            <button class="btn btn-primary">
+                <img src="{{ asset('img/loop.png') }}" alt="" class ="iconss">        
+            </button>
+        </form>
     </div>
 
     <style>

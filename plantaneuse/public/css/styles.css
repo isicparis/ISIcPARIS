@@ -1233,8 +1233,8 @@ header .main-header .flex .icons>*:hover {
 .search-bar {
     display: flex;
     align-items: center;
-    gap: 8px;
-    max-width: 600px;
+    justify-content: center;
+    height : 70px;
     margin: 20px auto;
 }
 
@@ -1242,9 +1242,58 @@ header .main-header .flex .icons>*:hover {
     font-size: 1.5rem;
 }
 
-.iconss{
-    width: 300px;
-    height : 300px ;
-    background-color: red;
+
+.search-bar button {
+    background-color:transparent;
+    margin: 0 ;
+} 
+.search-bar button:hover {
+    background-color: transparent;
+}
+.search-bar img {
+    width : 50px ;
+    height : 50px ;
+    background-color: transparent;
+}
+.search-bar form img{
     color : black ;
+    background-color: transparent;
+    padding: 0;
+    height : 40px ; 
+    width : 40px ;
+    margin : auto;
+}
+.search-bar form button{
+    padding : 0 ;
+    margin: 0;
+    width : 100px ;
+    height: 100% ;
+    border-radius: 5px;
+    background-color: var(--purple);
+}
+.search-bar form button:hover{
+    background-color: #ba5b6b;   
+}
+.search-bar input{
+    width: 700px ;
+    padding: 10px;
+    height : 100% ;
+    font-size:x-large;
+    border-radius: 5px;
+    padding-left: 30px ;
+    outline: none;
+}
+.search-bar input::placeholder {
+    color: rgba(0, 0, 0, 0.5); /* Add this line to make placeholder text more transparent */
+}
+
+.search-bar form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height : 100% ;
+    padding: 0;
+    margin: 0;
+    border-radius: 5px  ;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add this line */
 }
