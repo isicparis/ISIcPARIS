@@ -7,10 +7,12 @@ Original file is located at
     https://colab.research.google.com/drive/16fYmTvdHCHU6hNVsU6XNjkZ_LoP-uBvr
 """
 
-from google.colab import drive
-drive.mount('/content/drive')
+#pip install nltk
 
-pip install psycopg2-binary
+import sys
+import json
+
+#pip install psycopg2-binary
 
 import psycopg2
 conn = psycopg2.connect(database = "plante",
@@ -25,7 +27,7 @@ cur = conn.cursor()
 # Execute a command: create datacamp_courses table
 cur.execute("""SELECT * FROM Plantes;""")
 liste=cur.fetchall()
-print(liste)
+
 
 """# Création de corpus"""
 
@@ -43,7 +45,7 @@ for i in range(len(liste)):
     corpus[liste[i][0]]=corpus[liste[i][0]]+"toxique"+"/"
   else:
     corpus[liste[i][0]]=corpus[liste[i][0]]+"non toxique"
-print(corpus)
+
 
 def creation_corpus():
   conn = psycopg2.connect(database = "plante",
@@ -102,7 +104,7 @@ def filter_corpus(corpus):
   return(dict)
 
 filtered_corpus=filter_corpus(corpus)
-print(filtered_corpus)
+
 
 """***LEMMMATISATION***"""
 
@@ -123,7 +125,7 @@ def lemmatizer(filtered_corpus):
   return(lemmatized_corpus)
 
 lemmatized_corpus=lemmatizer(filtered_corpus)
-print(lemmatized_corpus)
+
 
 """Phase d'attribution des poids"""
 
@@ -135,7 +137,7 @@ def wordfk_doc(doc,word):
   all_words = nltk.FreqDist(all_words)
   return(all_words[word])
 
-print(wordfk_doc(1,"exterieur"))
+
 
 #corpus de fréquence des mots
 def wordfk_corp(filtered_corpus,word):
@@ -149,7 +151,7 @@ def affichage_tf(mot,corpus):
   d=wordfk_corp(corpus,mot)
   for doc in d:
     print("le nombre d'occurence de mot ",mot,"dans le document ",doc,"est :",d[doc])
-affichage_tf("vert",lemmatized_corpus)
+
 
 def liste_de_doc_ayant_mot(corpus,word):
   liste=[]
@@ -158,13 +160,11 @@ def liste_de_doc_ayant_mot(corpus,word):
       liste.append(doc)
   return(liste)
 
-print(liste_de_doc_ayant_mot(lemmatized_corpus,"vert"))
 
 """*Calcule de poids*"""
 
 def nombre_de_doc_ayant_mot(word,corpus):
   return(len(liste_de_doc_ayant_mot(lemmatized_corpus,word)))
-print(nombre_de_doc_ayant_mot("vert",lemmatized_corpus))
 
 import math
 
@@ -188,10 +188,10 @@ def poids_doc(doc, word, corpus):
 def aff_poids(corpus,mot):
   for doc in corpus:
     print("poids de ",doc,": ",poids_doc(doc,mot,corpus))
-aff_poids(lemmatized_corpus,"orang")
+
 
 mytexts = nltk.TextCollection(lemmatized_corpus.values())
-print(mytexts)
+
 
 def calc_tf_idf(word,doc):
   tf_idf=mytexts.tf_idf(word, lemmatized_corpus[doc])
@@ -203,7 +203,7 @@ def calcpoid(corpus,word):
     dictpoids[doc]=calc_tf_idf(word,doc)
   return(dictpoids)
 
-print(calcpoid(lemmatized_corpus,"vert"))
+
 
 def doc_pert(lemmatized_corpus,word):
     d=calcpoid(lemmatized_corpus,word)
@@ -229,13 +229,13 @@ def pertinance_par_ordre(corpus,word):
     if (liste_ordonnée[i][1]!=0):
       doc_pertinant_ordonnés.append(liste_ordonnée[i][0])
   return(doc_pertinant_ordonnés)
-print(pertinance_par_pertinance(lemmatized_corpus,"vert"))
+
 
 def affichage_par_ordre_de_pertinance(corpus,word):
   d=pertinance_par_ordre(corpus,word)
   for i in range (len(d)):
     print("document numéro ",i," : ",d[i])
-affichage_par_ordre_de_pertinance(lemmatized_corpus,"orangé")
+
 
 """# **The main program**"""
 
@@ -247,75 +247,16 @@ def programme_affichage_par_ordre_de_pertinance(word):
   lemmatized_corpus=lemmatizer(filtered_corpus)
   liste_finale=pertinance_par_ordre(lemmatized_corpus,word)
   return(liste_finale)
-print(programme_affichage_par_ordre_de_pertinance("orange"))
-
-!pip install googletrans
-
-from nltk.stem import PorterStemmer
-from nltk.corpus import wordnet
-from googletrans import Translator
-
-# Fonction pour obtenir les synonymes
-def get_synonyms(word, source_language="fr"):
-    translator = Translator()
-    synonyms = set()
-    try:
-        # Traduire le mot en anglais
-        translated = translator.translate(word, src=source_language, dest="en").text
-        # Obtenir les synonymes en anglais
-        for syn in wordnet.synsets(translated):
-            for lemma in syn.lemmas():
-                # Traduire les synonymes en français
-                synonym_translated = translator.translate(lemma.name(), src="en", dest=source_language).text
-                synonyms.add(synonym_translated)
-    except Exception as e:
-        print(f"Erreur lors de la récupération des synonymes : {e}")
-    return list(synonyms)
-print(get_synonyms("mal"))
-
-# Fonction pour obtenir les traductions dans d'autres langues
-def get_translations(word, source_language="fr", target_languages=["en", "es", "de"]):
-    translator = Translator()
-    translations = set()
-    for lang in target_languages:
-        try:
-            translated = translator.translate(word, src=source_language, dest=lang).text
-            translations.add(translated)
-        except Exception as e:
-            print(f"Erreur de traduction pour la langue {lang}: {e}")
-    return list(translations)
 
 
-# Fonction principale
-def programme_affichage_par_ordre_de_pertinance(word):
-    ps = PorterStemmer()
-    word = ps.stem(word)
 
-    # Étendre la requête avec les synonymes et les traductions
-    synonyms = get_synonyms(word)
-    translations = get_translations(word)
-    extended_query = set([word] + synonyms + translations)
 
-    # Créer et traiter le corpus
-    corpus = creation_corpus()
-    filtered_corpus = filter_corpus(corpus)
-    lemmatized_corpus = lemmatizer(filtered_corpus)
 
-    # Calculer la pertinence pour chaque mot étendu
-    liste_finale = []
-    for query_word in extended_query:
-        liste_finale.extend(pertinance_par_ordre(lemmatized_corpus, query_word))
 
-    # Supprimer les doublons et trier par pertinence
-    liste_finale = list(set(liste_finale))  # Suppression des doublons
-    # liste_finale.sort(key=lambda x: x['pertinence'], reverse=True)  # Tri par pertinence
 
-    return liste_finale
 
-# Exemple d'utilisation
-print(programme_affichage_par_ordre_de_pertinance("vert"))
 
-print(doc_pert(lemmatized_corpus,"fruit"))
+
 
 """**essaie avec l'intelligence artificielle**"""
 
@@ -345,15 +286,15 @@ i=0
 vectorizer = TfidfVectorizer()
 
 X1=vectorizer.fit(corpus_train)
-print(X1.get_params())
+#print(X1.get_params())
 
 X = vectorizer.fit_transform(corpus_train)
-print("deux" ,X)
+#print("deux" ,X)
 Y = vectorizer.transform(corpus_test)
 # print((X).toarray())
 # print((Y).toarray())
 td_idf=(X).toarray()
-print(vectorizer.get_feature_names_out(4))
+#print(vectorizer.get_feature_names_out(4))
 liste_de_tf_idf_mot_indice_3=[w[3] for w in td_idf]
 # print(liste_de_tf_idf_mot_indice_3)
 # print(X.shape)
