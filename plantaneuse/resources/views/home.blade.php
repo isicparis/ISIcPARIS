@@ -36,7 +36,9 @@
             @endforeach
         </div>
         <input type="hidden" id="result_no" value="3">
-        <input type="button" id="load" value="Charger plus de résultats" class="option-btn">
+        <form action="{{ route('shop') }}" method="get">
+    <input type="submit" id="load" value="Charger plus de résultats" class="option-btn">
+</form>
     </section>
     <section class="home-about">
         <h1 class="title">À propos de PLANTANEUSE</h1>
