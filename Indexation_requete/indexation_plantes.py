@@ -236,6 +236,27 @@ def affichage_par_ordre_de_pertinance(corpus,word):
   for i in range (len(d)):
     print("document numéro ",i," : ",d[i])
 
+# partie Karim
+# liste des plantes avec le nom ayant le meme prefix que la requete
+
+def liste_plantes_ayant_meme_prefixe_requete(mot):
+    # Execute a command: create datacamp_courses table
+    conn = psycopg2.connect(database="plante",
+                      user="plante_owner",
+                      host='ep-bold-boat-a2s83w2r.eu-central-1.aws.neon.tech',
+                      password="1hnumc8qDlUi",
+                      port=5432)
+    cur = conn.cursor()
+    cur.execute("""SELECT id,nom_commun,nom_scientifique FROM Plantes;""")
+    liste_noms=cur.fetchall()
+    liste_indices =[]
+    for i in range (len(liste_noms)):
+      id = liste_noms[i][0]
+      nom1=liste_noms[i][1].lower()
+      nom2=liste_noms[i][2].lower()
+      if (nom1.startswith(mot.lower()) ):
+        liste_indices.append(id)
+    return liste_indices
 
 """# **The main program**"""
 
@@ -246,6 +267,10 @@ def programme_affichage_par_ordre_de_pertinance(word):
   filtered_corpus=filter_corpus(corpus)
   lemmatized_corpus=lemmatizer(filtered_corpus)
   liste_finale=pertinance_par_ordre(lemmatized_corpus,word)
+  liste_matching_prefixe = liste_plantes_ayant_meme_prefixe_requete(word)
+  for id in liste_matching_prefixe:
+    if id not in liste_finale:
+      liste_finale.append(id)
   return(liste_finale)
 
 
