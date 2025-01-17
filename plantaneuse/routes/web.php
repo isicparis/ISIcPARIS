@@ -11,6 +11,9 @@ use App\Http\Controllers\PlanteController;
 
 
 
+
+
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/order', [OrderController::class, 'index'])->name('order');

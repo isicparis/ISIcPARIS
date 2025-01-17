@@ -11,4 +11,5 @@ class ShopController extends Controller
         $plantes=Plante::all();
         return view('shop',compact('plantes'));
     }
+    
 }

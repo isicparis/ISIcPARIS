@@ -10,13 +10,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <table> 
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th></th>
-                            </tr>
-                        </thead>
+                        
                         <tbody>
+                        <section class="home-products">
+                        <div class="box-container">
                             @foreach($plantes as $plante)
                             <div class="box" id="result_para">
                                 <img src="{{ asset('images/' . $plante->image) }}" alt="{{ $plante->nom_commun }}">
@@ -26,9 +23,11 @@
                                 <input type="hidden" name="product_name" value="{{$plante->nom_commun}}">
                                 <input type="hidden" name="product_price" value="<{{$plante->prix_achat}}">
                                 <input type="hidden" name="product_image" value="{{$plante->image}}">
-                                <a href="{{ route('plantes.edit', $plante->id) }}">Edit</a>
+                                <a href="{{ route('plantes.edit', $plante->id) }}" class="btn">Edit</a>
                             </div>
                             @endforeach
+                        </div>
+                        </section>
                         </tbody>
                     </table> 
                 </div>
