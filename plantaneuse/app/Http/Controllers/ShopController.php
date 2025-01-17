@@ -6,8 +6,38 @@ use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use App\Models\Plante;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse; 
 class ShopController extends Controller
 {
+    public function autocomplete(Request $request): JsonResponse
+{
+    Log::info("Autocomplete called");
+    $searchTerm = $request->input('search_word');
+    Log::info("Search term: " . $searchTerm);
+
+    if (empty($searchTerm)) {
+        Log::info("Search term is empty");
+        return response()->json([]);
+    }
+
+    try {
+        $suggestions = Plante::search($searchTerm)
+            ->orderBy('nom_commun')
+            ->limit(10)
+            ->get();
+
+        Log::info("Raw database results: " . json_encode($suggestions)); // Log raw results
+
+        $suggestionsArray = $suggestions->pluck('nom_commun')->toArray();
+        Log::info("Suggestions array: " . json_encode($suggestionsArray));
+
+        return response()->json($suggestionsArray);
+    } catch (\Exception $e) {
+        Log::error("Database error: " . $e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500); // Return error details
+    }
+}
     public function index()
     {   
         $plantes=Plante::all();
@@ -15,6 +45,7 @@ class ShopController extends Controller
     }
 
     public function search(Request $request) {
+
             // Récupérer l'entrée utilisateur
             $plantes=Plante::all();
             $search = $request->input('search_word');
@@ -49,6 +80,7 @@ class ShopController extends Controller
             // Passez les plantes trouvées à la vue
             return view('shop', compact('plantes'));
     }
-
-
+    
+    
+    
 }

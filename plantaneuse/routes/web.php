@@ -17,6 +17,7 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
+Route::post('/shop/autocomplete', [ShopController::class, 'autocomplete'])->name('shop.autocomplete');
 Route::view('/cart', 'cart')->name('cart');
 
 Route::get('/dashboard', function () {
