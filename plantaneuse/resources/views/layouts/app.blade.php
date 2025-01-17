@@ -20,14 +20,15 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/main.js'  ])
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <script src="{{ asset('js/main.js') }}"></script>
+    <!-- <script src="{{ asset('js/main.js') }}"></script> -->
 
 </head>
 
 <body class="font-sans antialiased">
+
     <div class="min-h-screen bg-gray-100">
         @include('layouts.navigation')
 

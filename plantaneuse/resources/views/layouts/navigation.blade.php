@@ -1,8 +1,11 @@
+
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <header class="header">
-
+        
         <div class="main-header">
+
             <div class="flex">
                 <a href="{{route('home')}}" class="logo">PLANT<span>ANEUSE</span></a>
 
@@ -33,8 +36,12 @@
                         <div id="menu-btn" class="fas fa-bars"></div>
                         <a href="{{route('shop')}}" class="fas fa-search"></a>
                         <div id="user-btn" class="fas fa-user"></div>
-                        <a href="{{route('cart')}}"><i class="fas fa-shopping-cart"></i>
-                            <span>(0)</span></a>
+                        <a href="{{route('cart.index')}}"><i class="fas fa-shopping-cart"></i>
+                            @php
+        $user_id = auth()->id();
+        $count = \App\Models\Cart::where('user_id', $user_id)->count(); // Utilisation de Eloquent pour compter les éléments
+    @endphp
+    <span>({{ $count }})</span>
                     </div>
                     
 
@@ -77,6 +84,13 @@
         </div>
     </header>
 </nav>
+{{-- @isset($head)
+        <header class="bg-white shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                {{ $head }}
+            </div>
+        </header>
+    @endisset  --}}
 
 {{--  Laravel initial navigation
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">

@@ -124,8 +124,9 @@ section {
     position: sticky;
     top: 0;
     margin: 0 auto;
-    padding: 2rem;
-    max-width: 1200px;
+    padding:2rem 70rem;
+    width: 100%;
+    max-width: 100%;
     background-color: var(--white);
     display: flex;
     justify-content: space-between;
