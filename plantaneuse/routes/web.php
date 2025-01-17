@@ -9,7 +9,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CkeckoutController;
-
+use App\Http\Controllers\PlanteController;
 
 // ...
  
@@ -37,7 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart', [CartController::class, 'destroyAll'])->name('cart.delete_all');
 
 });
-
+//Route::resource('plantes', \App\Http\Controllers\PlanteController::class);
+Route::get('/plantes/{id}/edit', [\App\Http\Controllers\PlanteController::class, 'edit'])->name('plantes.edit');
+Route::get('/plantes', [\App\Http\Controllers\PlanteController::class, 'index'])->name('plantes.index');
+//Route::put('/plante/{id}', [PlanteController::class, 'update'])->name('plante.update');
+Route::put('/plantes/{id}', [PlanteController::class, 'update'])->name('plantes.update');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

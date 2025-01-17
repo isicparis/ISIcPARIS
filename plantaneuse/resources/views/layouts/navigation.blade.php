@@ -25,10 +25,11 @@
                     <x-nav-link :href="route('order')" :active="request()->routeIs('order')">
                         {{ __('Commandes') }}
                     </x-nav-link>
-                    {{-- <x-nav-link :href="" :active="request()->routeIs('')">
-                        {{ __('cart') }}
-                    </x-nav-link> --}}
-                </nav>
+                    <x-nav-link :href="route('plantes.index')" :active="request()->routeIs('plante.index')">
+                        {{ __('plante') }}
+                    </x-nav-link>
+                </nav>    
+                
 
                 @auth
                     <div class="icons">
