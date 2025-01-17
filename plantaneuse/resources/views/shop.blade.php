@@ -1,7 +1,19 @@
-<x-app-layout>   
-    <x-slot name="header">
+<x-app-layout> 
+    @if(isset($message))
+    <div class="message">
+        <span> {{ $message }}</span>
+        <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+    </div>
+   
+    @endif  
+    <x-slot name="head">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            
+            @if(isset($message))
+            <div class="message">
+                <span> {{ $message }}</span>
+                <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+            </div>
+            @endif
         </h2>
     </x-slot>
     <div class="heading">
@@ -39,9 +51,8 @@
     
 
     <section class="home-products">
-    @if(isset($message))
-    <p>Message : {{ $message }}</p>
-    @elseif(isset($results))
+    
+    @if(isset($results))
     <h3>Résultats de la recherche :</h3>
     <ul>
         @foreach($results as $result)
@@ -50,12 +61,19 @@
     </ul>
     @else
     
-    
+        {{-- @if(isset($message))
+        <div class="message">
+            <span> {{ $message }}</span>
+            <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+        </div>
+       
+        @endif --}}
         <h1 class="title">NOTRE PLANTES</h1>
         <div class="box-container">
             @foreach($plantes as $plante)
-
-            <form action="" method="post" class="box" id="result_para">
+            
+            <form action="{{ route('shop.addToCart') }}" method="post" class="box" id="result_para">
+                @csrf
                 <img src="{{ asset('images/' . $plante->image) }}" alt="{{ $plante->nom_commun }}">
                 <div class="name">{{$plante->nom_commun}}</div>
                 <div class="price">{{$plante->prix_achat}} $</div>
