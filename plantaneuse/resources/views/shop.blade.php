@@ -17,8 +17,8 @@
         </h2>
     </x-slot>
     <div class="heading">
-        <h3>shop</h3>
-        <p><a href="home.php">home</a> / shop</p>
+        <h3>Boutique</h3>
+        <p><a href="{{ url('/') }}">Accueil</a> / Boutique</p>
     </div>
     
     <div class="search-bar">
@@ -81,7 +81,7 @@
                 <input type="hidden" name="product_name" value="{{$plante->nom_commun}}">
                 <input type="hidden" name="product_price" value="<{{$plante->prix_achat}}">
                 <input type="hidden" name="product_image" value="{{$plante->image}}">
-                <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+                <input type="submit" value="Ajouter au panier" name="add_to_cart" class="btn">
             </form>
             @endforeach
         </div>

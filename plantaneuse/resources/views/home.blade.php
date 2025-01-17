@@ -11,7 +11,7 @@
             <h3>Plantes qui respirent <br>la vie.</h3>
             <p>PLANTANEUSE : des plantes, du style, et un brin de nature chez vous. Découvrez nos trésors verts et
                 faites de votre espace un véritable havre de sérénité.</p>
-            <a href="{{route('shop')}}" class="white-btn">Discover more</a>
+            <a href="{{route('shop')}}" class="white-btn">Découvrir plus</a>
         </div>
     </section>
     <section class="home-products">
@@ -31,15 +31,17 @@
                     <input type="hidden" name="product_name" value="{{ $plante->nom_commun }}">
                     <input type="hidden" name="product_price" value="{{ $plante->prix_achat }}">
                     <input type="hidden" name="product_image" value="{{ $plante->image }}">
-                    <input type="submit" value="Add to Cart" name="add_to_cart" class="btn">
+                    <input type="submit" value="Ajouter au panier" name="add_to_cart" class="btn">
                 </form>
             @endforeach
         </div>
         <input type="hidden" id="result_no" value="3">
-        <input type="button" id="load" value="Load More Results" class="option-btn">
+        <form action="{{ route('shop') }}" method="get">
+    <input type="submit" id="load" value="Charger plus de résultats" class="option-btn">
+</form>
     </section>
     <section class="home-about">
-        <h1 class="title">About PLANTANEUSE</h1>
+        <h1 class="title">À propos de PLANTANEUSE</h1>
         <div class="flex">
             <div class="imgBx">
 
@@ -48,16 +50,16 @@
             <div class="content">
                 <p><span>PLANTA<span>NEUSE</span></span> PLANTANEUSE : des plantes, du style, et un brin de nature chez
                     vous. Découvrez nos trésors verts et faites de votre espace un véritable havre de sérénité.</p>
-                <a href="{{route('about')}}" class="white-btn">discover more</a>
+                <a href="{{route('about')}}" class="white-btn">Découvrir plus</a>
             </div>
         </div>
     </section>
 
     <section class="home-contact">
         <div class="content">
-            <h3>have any questions</h3>
-            <p>Keep in touch with us and ask about anything you want and we'll be for you as fast as possible !</p>
-            <a href="contact.php" class="white-btn">contact us</a>
+            <h3>Avez-vous des questions</h3>
+            <p>Restez en contact avec nous et posez-nous toutes vos questions. Nous vous répondrons le plus rapidement possible !</p>
+            <a href="contact.php" class="white-btn">Contactez-nous</a>
         </div>
     </section>
 </x-app-layout>
