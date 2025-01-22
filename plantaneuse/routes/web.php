@@ -23,6 +23,10 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/order', [OrderController::class, 'index'])->name('order');
+Route::get('/shop/filter', [ShopController::class, 'filter'])->name('shop.filter');
+Route::view('/filter', 'filter')->name('filter');
+Route::post('/exec-filter', [ShopController::class, 'exec_filter'])->name('filter.exec');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', [CkeckoutController::class, 'index'])->name('checkout.index');

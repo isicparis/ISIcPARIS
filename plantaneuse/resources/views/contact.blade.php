@@ -26,7 +26,7 @@
             <textarea name="message" placeholder="Votre message" cols="30" rows="10" class="box" required>{{ old('message') }}</textarea>
             @error('message')<span class="error">{{ $message }}</span>@enderror
 
-            <input type="submit" value="Envoyer le message" class="btn">
+            <input type="submit" value="Envoyer le message" class="btn1">
         </form>
     </section>
 </x-app-layout>

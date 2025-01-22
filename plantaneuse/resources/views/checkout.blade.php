@@ -76,7 +76,7 @@
                     <input type="text" name="pin_code" id="pin_code" required>
                 </div>
             </div>
-            <button type="submit" class="btn">Order Now</button>
+            <button type="submit" class="btn1">Order Now</button>
         </form>
     </section>
 </x-app-layout>

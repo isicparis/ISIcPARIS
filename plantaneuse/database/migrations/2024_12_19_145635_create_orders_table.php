@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('payment_method', 50);
             $table->string('total_products', 1000);
-            $table->integer('total_price');
+            $table->float('total_price');
             $table->string('placed_on', 50);
             $table->string('status', 20)->default('pending');
             $table->timestamps();

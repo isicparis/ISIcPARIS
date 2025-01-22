@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Accueil') }}
-        </h2>
-    </x-slot>
     
     <section class="home">
         <div class="content">
@@ -30,7 +25,7 @@
                     <input type="hidden" name="product_name" value="{{ $plante->nom_commun }}">
                     <input type="hidden" name="product_price" value="{{ $plante->prix_achat }}">
                     <input type="hidden" name="product_image" value="{{ $plante->image }}">
-                    <input type="submit" value="Add to Cart" name="add_to_cart" class="btn">
+                    <input type="submit" value="Add to Cart" name="add_to_cart" class="btn1">
                 </form>
             @endforeach
         </div>

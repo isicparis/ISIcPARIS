@@ -19,27 +19,29 @@
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Scripts -->
+    {{-- <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/main.js'  ])
+     --}}
+
+    @vite(['resources/js/main.js'])
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <!-- <script src="{{ asset('js/main.js') }}"></script> -->
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased">
 
     <div class="min-h-screen bg-gray-100">
         @include('layouts.navigation')
-
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset
 
         <!-- Page Content -->
         <main>

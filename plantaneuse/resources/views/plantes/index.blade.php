@@ -23,7 +23,7 @@
                                 <input type="hidden" name="product_name" value="{{$plante->nom_commun}}">
                                 <input type="hidden" name="product_price" value="<{{$plante->prix_achat}}">
                                 <input type="hidden" name="product_image" value="{{$plante->image}}">
-                                <a href="{{ route('plantes.edit', $plante->id) }}" class="btn">Edit</a>
+                                <a href="{{ route('plantes.edit', $plante->id) }}" class="btn1">Edit</a>
                             </div>
                             @endforeach
                         </div>

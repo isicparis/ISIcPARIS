@@ -1,10 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Panier') }}
-        </h2>
-    </x-slot>
-
+   
     <div class="heading">
         <h3>Shopping Cart</h3>
         <p><a href="{{ route('home') }}">Home</a> / Cart</p>
@@ -80,7 +75,7 @@
             <p>Grand Total: <span>${{ $grand_total }} /-</span></p>
             <div class="flex">
                 <a href="{{ route('shop') }}" class="option-btn">Continue Shopping</a>
-                <a href="{{route('checkout.index')}}" class="btn {{ $grand_total > 1 ? '' : 'disabled' }}">Proceed to Checkout</a>
+                <a href="{{route('checkout.index')}}" class="btn1 {{ $grand_total > 1 ? '' : 'disabled' }}">Proceed to Checkout</a>
             </div>
         </div>
     </section>

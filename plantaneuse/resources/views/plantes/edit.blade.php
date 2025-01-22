@@ -164,7 +164,7 @@
                         </div>
 
 
-                        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                        <button type="submit" class="btn1 btn-primary">Mettre à jour</button>
                         </div>
                     </form>
                     <!-- </div> -->
