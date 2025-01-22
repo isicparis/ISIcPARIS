@@ -21,9 +21,56 @@ class PlanteController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function ajout()
     {
         return view('plantes.create');
+    }
+    public function create(Request $request){
+        // return "ahla";
+    // Validation des données
+        
+        // dd($request);
+        $request->validate([
+            'nom_scientifique' => 'required|string|max:255',
+            'nom_commun' => 'nullable|string|max:255',
+            'famille' => 'nullable|string|max:255',
+            'genre' => 'nullable|string|max:255',
+            'espece' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'quantite' => 'required|integer',
+            'prix_achat' => 'required|numeric',
+            'prix_vente' => 'required|numeric',
+            'tags' => 'nullable|string',
+            'type_de_plante' => 'nullable|string|max:255',
+            'niveau_entretien' => 'nullable|string|max:255',
+            'besoins_lumiere' => 'nullable|string|max:255',
+            'frequence_arrosage' => 'nullable|string|max:255',
+            'port_plante' => 'nullable|string|max:255',
+            'floraison' => 'nullable|string|max:255',
+            'toxicite' => 'nullable|boolean',
+            'couleur' => 'nullable|string|max:255',
+            'taille' => 'nullable|string|max:255',
+            'saisonnalite' => 'nullable|string|max:255',
+            'origine' => 'nullable|string|max:255',
+        ]);
+
+        // // Créer une nouvelle plante
+        $plante = new Plante();
+        $plante->fill($request->except('image'));
+
+        // Gérer l'image
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $plante->image = $imagePath;
+        }
+
+        // Sauvegarder la plante dans la base de données
+        $id = $plante->save();
+        
+        
+        // Rediriger avec un message de succè
+        return redirect()->route('plantes.index')->with('success', 'Plante ajoutée avec succès.');
     }
 
     /**
@@ -48,8 +95,8 @@ class PlanteController extends Controller
     public function edit($id)
     {
         //
-        $plante = Plante::where('id', $id)->get()[0];
-        return view('plantes.edit', compact('plante'));
+        // $plante = Plante::where('id', $id)->get()[0];
+        // return view('plantes.edit', compact('plante'));
     }
 
 
@@ -86,8 +133,8 @@ class PlanteController extends Controller
             'origine' => 'nullable|string|max:255',
         ]);
 
-        $plante = Plante::findOrFail($id);
-        $plante->update($validated);
+        // $plante = Plante::findOrFail($id);
+        // $plante->update($validated);
 
         /*
         ///////////////////// a travailler
@@ -102,8 +149,8 @@ class PlanteController extends Controller
 
         ////////////////////
         */
-        return redirect()->route('plantes.edit', $id)
-            ->with('success', 'Plante mise à jour avec succès.');
+        // return redirect()->route('plantes.edit', $id)
+        //     ->with('success', 'Plante mise à jour avec succès.');
     }
 
 

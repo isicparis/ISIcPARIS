@@ -37,7 +37,7 @@
 
 
     <div style="margin-top:2rem; text-align:center;">
-        <a href="{{ route('plantes.create')}}" class="delete-btn delete-all "
+        <a href="{{ route('plantes.ajout')}}" class="delete-btn delete-all "
            onclick="">
             Ajouter une plante
         </a>

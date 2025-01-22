@@ -124,49 +124,149 @@
                 <div class="p-6 text-gray-900">
                     <section class="home-products">
                     <!-- <div class="box-container"> -->
-                    <form action="{s{ route('plantes.update', $plante->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div class="box" id="result_para">
-                        <div class="form-group">
-                            <label for="nom_scientifique">Nom scientifique</label>
-                            <input type="text" name="nom_scientifique" id="nom_scientifique" value="{s{ old('nom_scientifique', $plante->nom_scientifique) }}" class="form-control" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="nom_commun">Nom commun</label>
-                            <input type="text" name="nom_commun"  id="nom_commun" value="{s{ old('nom_commun', $plante->nom_commun) }}" class="form-control">
-                        </div>
-
-                        <!-- Répétez les champs pour tous les autres attributs -->
-
-                        <div class="form-group">
-                            <label for="image">Image</label>
-                            <input type="file" name="image" id="image" class="form-control">
-                            {{-- @if($plante->image)
-                            <img src="{s{ asset('images/' . $plante->image) }}" alt="Image de la plante" class="img-thumbnail mt-2" width="150">
-                            @endif --}}
-                        </div>
-
-                        <div class="form-group">
-                            <label for="quantite">Quantité</label>
-                            <input type="number" name="quantite"  id="quantite" value="{s{ old('quantite', $plante->quantite) }}" class="form-control" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prix_achat">Prix d'achat</label>
-                            <input type="number" name="prix_achat"  id="prix_achat" value="{s{ old('prix_achat', $plante->prix_achat) }}" step="0.01" class="form-control" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prix_vente">Prix de vente</label>
-                            <input type="number" name="prix_vente"  id="prix_vente" value="{s{ old('prix_vente', $plante->prix_vente) }}" step="0.01" class="form-control" required>
-                        </div>
-
-
-                        <button type="submit" class="btn btn-primary">Ajouter la plante</button>
-                        </div>
-                    </form>
+                        <form action="{{ route('plantes.create') }}" method="PUT" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="box" id="result_para">
+                                <!-- Nom scientifique -->
+                                <div class="form-group">
+                                    <label for="nom_scientifique">Nom scientifique</label>
+                                    <input type="text" name="nom_scientifique" id="nom_scientifique" class="form-control" required>
+                                </div>
+                        
+                                <!-- Nom commun -->
+                                <div class="form-group">
+                                    <label for="nom_commun">Nom commun</label>
+                                    <input type="text" name="nom_commun" id="nom_commun" class="form-control">
+                                </div>
+                        
+                                <!-- Famille -->
+                                <div class="form-group">
+                                    <label for="famille">Famille</label>
+                                    <input type="text" name="famille" id="famille" class="form-control">
+                                </div>
+                        
+                                <!-- Genre -->
+                                <div class="form-group">
+                                    <label for="genre">Genre</label>
+                                    <input type="text" name="genre" id="genre" class="form-control">
+                                </div>
+                        
+                                <!-- Espèce -->
+                                <div class="form-group">
+                                    <label for="espece">Espèce</label>
+                                    <input type="text" name="espece" id="espece" class="form-control">
+                                </div>
+                        
+                                <!-- Description -->
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea name="description" id="description" class="form-control"></textarea>
+                                </div>
+                        
+                                <!-- Image -->
+                                <div class="form-group">
+                                    <label for="image">Image</label>
+                                    <input type="file" name="image" id="image" class="form-control">
+                                </div>
+                        
+                                <!-- Quantité -->
+                                <div class="form-group">
+                                    <label for="quantite">Quantité</label>
+                                    <input type="number" name="quantite" id="quantite" class="form-control" required>
+                                </div>
+                        
+                                <!-- Prix d'achat -->
+                                <div class="form-group">
+                                    <label for="prix_achat">Prix d'achat</label>
+                                    <input type="number" name="prix_achat" id="prix_achat" step="0.01" class="form-control" required>
+                                </div>
+                        
+                                <!-- Prix de vente -->
+                                <div class="form-group">
+                                    <label for="prix_vente">Prix de vente</label>
+                                    <input type="number" name="prix_vente" id="prix_vente" step="0.01" class="form-control" required>
+                                </div>
+                        
+                                <!-- Tags -->
+                                <div class="form-group">
+                                    <label for="tags">Tags</label>
+                                    <input type="text" name="tags" id="tags" class="form-control">
+                                </div>
+                        
+                                <!-- Type de plante -->
+                                <div class="form-group">
+                                    <label for="type_de_plante">Type de plante</label>
+                                    <input type="text" name="type_de_plante" id="type_de_plante" class="form-control">
+                                </div>
+                        
+                                <!-- Niveau d'entretien -->
+                                <div class="form-group">
+                                    <label for="niveau_entretien">Niveau d'entretien</label>
+                                    <input type="text" name="niveau_entretien" id="niveau_entretien" class="form-control">
+                                </div>
+                        
+                                <!-- Besoins en lumière -->
+                                <div class="form-group">
+                                    <label for="besoins_lumiere">Besoins en lumière</label>
+                                    <input type="text" name="besoins_lumiere" id="besoins_lumiere" class="form-control">
+                                </div>
+                        
+                                <!-- Fréquence d'arrosage -->
+                                <div class="form-group">
+                                    <label for="frequence_arrosage">Fréquence d'arrosage</label>
+                                    <input type="text" name="frequence_arrosage" id="frequence_arrosage" class="form-control">
+                                </div>
+                        
+                                <!-- Port de la plante -->
+                                <div class="form-group">
+                                    <label for="port_plante">Port de la plante</label>
+                                    <input type="text" name="port_plante" id="port_plante" class="form-control">
+                                </div>
+                        
+                                <!-- Floraison -->
+                                <div class="form-group">
+                                    <label for="floraison">Floraison</label>
+                                    <input type="text" name="floraison" id="floraison" class="form-control">
+                                </div>
+                        
+                                <!-- Toxicité -->
+                                <div class="form-group">
+                                    <label for="toxicite">Toxicité</label>
+                                    <select name="toxicite" id="toxicite" class="form-control">
+                                        <option value="1">Oui</option>
+                                        <option value="0">Non</option>
+                                    </select>
+                                </div>
+                        
+                                <!-- Couleur -->
+                                <div class="form-group">
+                                    <label for="couleur">Couleur</label>
+                                    <input type="text" name="couleur" id="couleur" class="form-control">
+                                </div>
+                        
+                                <!-- Taille -->
+                                <div class="form-group">
+                                    <label for="taille">Taille</label>
+                                    <input type="text" name="taille" id="taille" class="form-control">
+                                </div>
+                        
+                                <!-- Saisonnalité -->
+                                <div class="form-group">
+                                    <label for="saisonnalite">Saisonnalité</label>
+                                    <input type="text" name="saisonnalite" id="saisonnalite" class="form-control">
+                                </div>
+                        
+                                <!-- Origine -->
+                                <div class="form-group">
+                                    <label for="origine">Origine</label>
+                                    <input type="text" name="origine" id="origine" class="form-control">
+                                </div>
+                        
+                                <!-- Bouton de soumission -->
+                                <button type="submit" class="btn btn-primary">Ajouter cette plante</button>
+                            </div>
+                        </form>
                     <!-- </div> -->
                     </section>
                 </div>
