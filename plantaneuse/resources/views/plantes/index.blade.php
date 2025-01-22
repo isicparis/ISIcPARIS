@@ -16,7 +16,7 @@
                         <div class="box-container">
                             @foreach($plantes as $plante)
                             <div class="box" id="result_para">
-                                <img src="{{ asset('images/' . $plante->image) }}" alt="{{ $plante->nom_commun }}">
+                                <img src="{{ asset( $plante->image) }}" alt="{{ $plante->nom_commun }}">
                                 <div class="name">{{$plante->nom_commun}}</div>
                                 <div class="price">{{$plante->prix_achat}}</div>
                                 <input type="number" name="product_quantity" value="{{ $plante->quantite }}" class="quantity">
@@ -33,5 +33,13 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+    <div style="margin-top:2rem; text-align:center;">
+        <a href="{{ route('plantes.ajout')}}" class="delete-btn delete-all "
+           onclick="">
+            Ajouter une plante
+        </a>
     </div>
 </x-app-layout>

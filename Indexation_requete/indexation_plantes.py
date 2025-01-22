@@ -13,20 +13,40 @@ import sys
 import json
 
 #pip install psycopg2-binary
-
 import psycopg2
-conn = psycopg2.connect(database = "plante",
-                        user = "plante_owner",
-                        host= 'ep-bold-boat-a2s83w2r.eu-central-1.aws.neon.tech',
-                        password = "1hnumc8qDlUi",
-                        port = 5432)
 
+# Database URL
+DB_URL = "postgresql://postgres:Isicparis_123@db.jzglofusihfqhmrmszho.supabase.co:5432/postgres"
+
+# Connect to the database
+try:
+    conn = psycopg2.connect(DB_URL)
+except Exception as e:
+    print(f"Failed to connect: {e}")
+
+except Exception as e:
+    print(f"Failed to connect: {e}")
 #Open a cursor to perform database operations
 cur = conn.cursor()
 
 # Execute a command: create datacamp_courses table
 cur.execute("""SELECT * FROM Plantes;""")
 liste=cur.fetchall()
+
+#splitting the tags from string to a list of strings
+# Transform the list
+transformed_list = []
+for item in liste:
+    # Convert the comma-separated string into a list
+    tags = item[11].split(',')
+    
+    # Create a new tuple with the transformed data
+    new_item = item[:11] + (tags,) + item[12:] + (None, None)
+    
+    # Append the new tuple to the transformed list
+    transformed_list.append(new_item)
+
+liste = transformed_list
 
 
 """# Création de corpus"""
@@ -48,11 +68,9 @@ for i in range(len(liste)):
 
 
 def creation_corpus():
-  conn = psycopg2.connect(database = "plante",
-                        user = "plante_owner",
-                        host= 'ep-bold-boat-a2s83w2r.eu-central-1.aws.neon.tech',
-                        password = "1hnumc8qDlUi",
-                        port = 5432)
+
+
+  conn = psycopg2.connect(DB_URL)
 
   cur = conn.cursor()
   cur.execute("""SELECT * FROM Plantes;""")
@@ -241,11 +259,8 @@ def affichage_par_ordre_de_pertinance(corpus,word):
 
 def liste_plantes_ayant_meme_prefixe_requete(mot):
     # Execute a command: create datacamp_courses table
-    conn = psycopg2.connect(database="plante",
-                      user="plante_owner",
-                      host='ep-bold-boat-a2s83w2r.eu-central-1.aws.neon.tech',
-                      password="1hnumc8qDlUi",
-                      port=5432)
+    conn = psycopg2.connect(DB_URL)
+
     cur = conn.cursor()
     cur.execute("""SELECT id,nom_commun,nom_scientifique FROM Plantes;""")
     liste_noms=cur.fetchall()

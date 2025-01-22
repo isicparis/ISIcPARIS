@@ -10,7 +10,7 @@
                     @csrf
                     @method('PUT')
                     
-                    <img src="{{ asset('images/' . $plante->image) }}" alt="{{ $plante->nom_commun }}">
+                    <img src="{{  $plante->image) }}" alt="{{ $plante->nom_commun }}">
                     <input type="number" name="product_quantity" value="{{ $plante->quantite }}" class="quantity">
                     <input type="text" name="product_name" class="name" value="{{ $plante->nom_commun }}">
                     <input type="text" name="product_price" class="price" value="{{ $plante->prix_achat }}">
@@ -144,7 +144,7 @@
                             <label for="image">Image</label>
                             <input type="file" name="image" id="image" class="form-control">
                             @if($plante->image)
-                            <img src="{{ asset('images/' . $plante->image) }}" alt="Image de la plante" class="img-thumbnail mt-2" width="150">
+                            <img src="{{ asset($plante->image) }}" alt="Image de la plante" class="img-thumbnail mt-2" width="150">
                             @endif
                         </div>
 

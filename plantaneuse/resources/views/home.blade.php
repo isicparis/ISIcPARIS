@@ -15,7 +15,7 @@
             @foreach ($plantes as $plante)
                 <form action="" method="post" class="box" id="result_para">
                     <!-- Affichage de l'image -->
-                    <img src="{{ asset('images/' . $plante->image) }}" alt="{{ $plante->nom_commun }}">
+                    <img src="{{ asset($plante->image) }}" alt="{{ $plante->nom_commun }}">
 
                     <!--<img src="../images/{{ $plante->image }}" alt="{{ $plante->image }}">-->
                     <div class="name">{{ $plante->nom_commun }}</div>
