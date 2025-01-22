@@ -13,29 +13,16 @@ import sys
 import json
 
 #pip install psycopg2-binary
-
 import psycopg2
 
-# Connection parameters
-USER = "postgres"
-PASSWORD = "Isicparis_123"
-HOST = "db.whyiklwvkpmwuvekjfds.supabase.co"
-PORT = "5432"
-DBNAME = "postgres"
+# Database URL
+DB_URL = "postgresql://postgres:Isicparis_123@db.jzglofusihfqhmrmszho.supabase.co:5432/postgres"
 
 # Connect to the database
 try:
-    conn = psycopg2.connect(
-        user=USER,
-        password=PASSWORD,
-        host=HOST,
-        port=PORT,
-        dbname=DBNAME
-    )
-    print("Connection successful!")
-    
-    # Optional: Close the connection after use
-
+    conn = psycopg2.connect(DB_URL)
+except Exception as e:
+    print(f"Failed to connect: {e}")
 
 except Exception as e:
     print(f"Failed to connect: {e}")
@@ -81,11 +68,9 @@ for i in range(len(liste)):
 
 
 def creation_corpus():
-  conn = psycopg2.connect(database = "plante",
-                        user = "plante_owner",
-                        host= 'ep-bold-boat-a2s83w2r.eu-central-1.aws.neon.tech',
-                        password = "1hnumc8qDlUi",
-                        port = 5432)
+
+
+  conn = psycopg2.connect(DB_URL)
 
   cur = conn.cursor()
   cur.execute("""SELECT * FROM Plantes;""")
@@ -274,11 +259,8 @@ def affichage_par_ordre_de_pertinance(corpus,word):
 
 def liste_plantes_ayant_meme_prefixe_requete(mot):
     # Execute a command: create datacamp_courses table
-    conn = psycopg2.connect(database="plante",
-                      user="plante_owner",
-                      host='ep-bold-boat-a2s83w2r.eu-central-1.aws.neon.tech',
-                      password="1hnumc8qDlUi",
-                      port=5432)
+    conn = psycopg2.connect(DB_URL)
+
     cur = conn.cursor()
     cur.execute("""SELECT id,nom_commun,nom_scientifique FROM Plantes;""")
     liste_noms=cur.fetchall()
