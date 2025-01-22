@@ -15,18 +15,51 @@ import json
 #pip install psycopg2-binary
 
 import psycopg2
-conn = psycopg2.connect(database = "plante",
-                        user = "plante_owner",
-                        host= 'ep-bold-boat-a2s83w2r.eu-central-1.aws.neon.tech',
-                        password = "1hnumc8qDlUi",
-                        port = 5432)
 
+# Connection parameters
+USER = "postgres"
+PASSWORD = "Isicparis_123"
+HOST = "db.whyiklwvkpmwuvekjfds.supabase.co"
+PORT = "5432"
+DBNAME = "postgres"
+
+# Connect to the database
+try:
+    conn = psycopg2.connect(
+        user=USER,
+        password=PASSWORD,
+        host=HOST,
+        port=PORT,
+        dbname=DBNAME
+    )
+    print("Connection successful!")
+    
+    # Optional: Close the connection after use
+
+
+except Exception as e:
+    print(f"Failed to connect: {e}")
 #Open a cursor to perform database operations
 cur = conn.cursor()
 
 # Execute a command: create datacamp_courses table
 cur.execute("""SELECT * FROM Plantes;""")
 liste=cur.fetchall()
+
+#splitting the tags from string to a list of strings
+# Transform the list
+transformed_list = []
+for item in liste:
+    # Convert the comma-separated string into a list
+    tags = item[11].split(',')
+    
+    # Create a new tuple with the transformed data
+    new_item = item[:11] + (tags,) + item[12:] + (None, None)
+    
+    # Append the new tuple to the transformed list
+    transformed_list.append(new_item)
+
+liste = transformed_list
 
 
 """# Création de corpus"""
