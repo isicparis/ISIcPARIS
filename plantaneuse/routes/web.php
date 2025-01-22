@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
 });
 //Route::resource('plantes', \App\Http\Controllers\PlanteController::class);
 Route::get('/plantes/{id}/edit', [\App\Http\Controllers\PlanteController::class, 'edit'])->name('plantes.edit');
+Route::get('/plantes/create', [\App\Http\Controllers\PlanteController::class, 'create'])->name('plantes.create');
+
 Route::get('/plantes', [\App\Http\Controllers\PlanteController::class, 'index'])->name('plantes.index');
 //Route::put('/plante/{id}', [PlanteController::class, 'update'])->name('plante.update');
 Route::put('/plantes/{id}', [PlanteController::class, 'update'])->name('plantes.update');

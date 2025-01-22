@@ -74,7 +74,7 @@
             
             <form action="{{ route('shop.addToCart') }}" method="post" class="box" id="result_para">
                 @csrf
-                <img src="{{ asset('images/' . $plante->image) }}" alt="{{ $plante->nom_commun }}">
+                <img src="{{ asset($plante->image) }}" alt="{{ $plante->nom_commun }}">
                 <div class="name">{{$plante->nom_commun}}</div>
                 <div class="price">{{$plante->prix_achat}} $</div>
                 <input type="number" name="product_quantity" min="1" value="1" class="quantity">

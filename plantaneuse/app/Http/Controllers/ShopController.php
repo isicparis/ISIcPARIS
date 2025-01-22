@@ -20,8 +20,8 @@ class ShopController extends Controller
             $search = $request->input('search_word');
         
             // Construire la commande pour exécuter le script Python
-            $scriptPath = '..\\..\\Indexation_requete\\main.py';
-            $command = "python \"$scriptPath\" $search";
+            $scriptPath = '../../Indexation_requete/main.py';
+            $command = "python3 \"$scriptPath\" $search";
         
             // Exécuter la commande
             $output = shell_exec($command);
