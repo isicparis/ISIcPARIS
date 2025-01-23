@@ -5,11 +5,12 @@
     </div>
 
     <!-- Barre de recherche -->
-    <div class="search-bar position-relative">
+    <div class="search-bar position-relative d-flex align-items-center">
         <button class="btn btn-outline-secondary">
-            <img src="{{ asset('img/settings.png') }}" alt="" class="iconss">
+            <img src="{{ asset('img/settings.png') }}" alt="settings icon" class="iconss">
         </button>
-        <form action="#" method="GET">
+        <form action="{{ route('shop.search') }}" method="GET" class="d-flex flex-grow-1">
+            @csrf
             <input
                 type="text"
                 id="search_input"
@@ -18,8 +19,10 @@
                 placeholder="Rechercher une plante"
                 aria-label="Rechercher une plante"
                 autocomplete="off">
+            <button type="submit" class="btn btn-primary ms-2">
+                <img src="{{ asset('img/loop.png') }}" alt="search icon" class="iconss">
+            </button>
         </form>
-
         <!-- Suggestions Box -->
         <div id="suggestions-box" class="suggestions-box"></div>
     </div>
@@ -43,10 +46,13 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             max-height: 200px;
             overflow-y: auto;
+            position: absolute;
+            top: 100%;
+            width: 100%;
         }
 
         .suggestion-item {
-            padding: 10px 10px 10px 30px; /* Ajoute un padding à gauche */
+            padding: 10px 10px 10px 30px;
             cursor: pointer;
             font-size: 25px;
             color: #333333;
@@ -55,11 +61,11 @@
         }
 
         .suggestion-item:hover {
-            background-color: #f8f9fa; /* Effet de survol */
+            background-color: #f8f9fa;
         }
 
         .suggestion-item:last-child {
-            border-bottom: none; /* Pas de bordure pour le dernier élément */
+            border-bottom: none;
         }
     </style>
 
@@ -83,62 +89,14 @@
             @endforeach
         </div>
     </section>
+  
+    <!-- Scripts -->
     <script>
         window.shopAutocompleteUrl = "{{ route('shop.autocomplete') }}";
-  
+        window.shopAutoloadUrl = "{{ route('shop.autoload') }}";
+        window.shopAddToCartUrl = "{{ route('shop.addToCart') }}";
         window.csrfToken = "{{ csrf_token() }}";
     </script>
-
-    <!-- Scripts -->
-   <!-- <script src="{{ asset('js/suggestions.js') }}"></script>-->
-    
-
-    <!-- Script JavaScript -->
-    <script>
-      $(document).ready(function () {
-    // Quand l'utilisateur tape dans la barre de recherche
-    $('#search_input').on('keyup', function () {
-        let search_word = $(this).val(); // Texte saisi
-
-        // Requête Ajax
-        $.ajax({
-            url: "{{ route('shop.autoload') }}", // URL de la route
-            type: 'GET',
-            data: { search_word: search_word }, // Paramètres
-            success: function (response) {
-                console.log(response); // Afficher la réponse JSON dans la console
-                let plantList = $('#plant-list');
-                plantList.empty(); // Vider la liste des plantes existantes
-
-                // Ajouter les résultats
-                if (response.length > 0) {
-                    response.forEach(function (plant) {
-                        plantList.append(`
-                            <form action="{{ route('shop.addToCart') }}" method="post" class="box">
-                                @csrf
-                                <img src="${plant.image}" alt="${plant.nom_commun}">
-                                <div class="name">${plant.nom_commun}</div>
-                                <div class="price">${plant.prix_achat} $</div>
-                                <input type="number" name="product_quantity" min="1" value="1" class="quantity">
-                                <input type="hidden" name="product_name" value="${plant.nom_commun}">
-                                <input type="hidden" name="product_price" value="${plant.prix_achat}">
-                                <input type="hidden" name="product_image" value="${plant.image}">
-                                <input type="submit" value="Ajouter au panier" name="add_to_cart" class="btn">
-                            </form>
-                        `);
-                    });
-                } else {
-                    plantList.append('<p>Aucune plante trouvée.</p>');
-                }
-            },
-            error: function () {
-                alert('Erreur lors du chargement des données.');
-            }
-        });
-    });
-});    
-
-
-    </script>
-   
+    <script src="{{ asset('js/multimodal.js') }}"></script>
+    <script src="{{ asset('js/suggestions.js') }}"></script>
 </x-app-layout>
