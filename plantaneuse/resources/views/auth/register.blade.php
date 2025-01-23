@@ -49,4 +49,9 @@
             </x-primary-button>
         </div>
     </form>
+    <div class="text-right">
+    <a href="{{ route('home') }}" class="underline text-blue-600 hover:text-blue-800">
+        Retour
+    </a>
+</div>
 </x-guest-layout>

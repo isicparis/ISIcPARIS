@@ -20,7 +20,7 @@ Route::get('/shop/search', [ShopController::class, 'search'])->name('shop.search
 Route::post('/shop', [ShopController::class, 'addToCart'])->name('shop.addToCart');
 Route::get('/order', [OrderController::class, 'index'])->name('order');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-Route::post('/contact', [ContactController::class, 'store'])->name('contact');
+// Route::post('/contact', [ContactController::class, 'store'])->name('contact');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/order', [OrderController::class, 'index'])->name('order');
 
@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 });
 //Route::resource('plantes', \App\Http\Controllers\PlanteController::class);
 Route::get('/plantes/{id}/edit', [\App\Http\Controllers\PlanteController::class, 'edit'])->name('plantes.edit');
-Route::get('/plantes', [\App\Http\Controllers\PlanteController::class, 'index'])->name('plantes.index');
+Route::get('/plantes', [\App\Http\Controllers\PlanteController::class, 'index'])->name('plantes.index')->middleware('is_admin');
 //Route::put('/plante/{id}', [PlanteController::class, 'update'])->name('plante.update');
 Route::put('/plantes/{id}', [PlanteController::class, 'update'])->name('plantes.update');
 Route::get('/dashboard', function () {
@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 
 

@@ -335,8 +335,9 @@ header .main-header .flex .logo span {
 header .main-header .flex .navbar a {
     margin: 0 1rem;
     color: var(--light-color);
-    font-size: 2rem;
+    font-size: 1rem;
     text-transform: capitalize;
+    flex-wrap: nowrap;
 }
 
 header .main-header .flex .navbar a:hover {
