@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -20,8 +22,8 @@ class ShopController extends Controller
             $search = $request->input('search_word');
         
             // Construire la commande pour exécuter le script Python
-            $scriptPath = '../../Indexation_requete/main.py';
-            $command = "python3 \"$scriptPath\" $search";
+            $scriptPath = '..\\..\\Indexation_requete\\main.py';
+            $command = "python \"$scriptPath\" $search";
         
             // Exécuter la commande
             $output = shell_exec($command);
@@ -103,6 +105,47 @@ class ShopController extends Controller
     return view('shop',compact('plantes','message'));
     }
 
-
+    public function autocomplete(Request $request): JsonResponse
+    {
+        Log::info("Autocomplete called");
+        $searchTerm = $request->input('search_word');
+        Log::info("Search term: " . $searchTerm);
+    
+        if (empty($searchTerm)) {
+            Log::info("Search term is empty");
+            return response()->json([]);
+        }
+    
+        try {
+            $suggestions = Plante::search($searchTerm)
+                ->orderBy('nom_commun')
+                ->limit(10)
+                ->get();
+    
+            Log::info("Raw database results: " . json_encode($suggestions)); // Log raw results
+    
+            $suggestionsArray = $suggestions->pluck('nom_commun')->toArray();
+            Log::info("Suggestions array: " . json_encode($suggestionsArray));
+    
+            return response()->json($suggestionsArray);
+        } catch (\Exception $e) {
+            Log::error("Database error: " . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500); // Return error details
+        }
+    }
+    public function autoload(Request $request)
+    {
+        $search = $request->input('search_word');
+    
+        if ($search) {
+            // Utiliser le scopeSearch corrigé
+            $plantes = Plante::search($search)->get();
+        } else {
+            // Récupérer toutes les plantes avec les champs nécessaires
+            $plantes = Plante::all(['id', 'nom_commun', 'prix_achat', 'image']);
+        }
+    
+        return response()->json($plantes);
+    }
 
 }

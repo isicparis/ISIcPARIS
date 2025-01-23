@@ -1,0 +1,1 @@
+// metre le js de ka vue shop.blade ici 
