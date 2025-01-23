@@ -54,7 +54,7 @@
         <div class="content">
             <h3>Avez-vous des questions</h3>
             <p>Restez en contact avec nous et posez-nous toutes vos questions. Nous vous répondrons le plus rapidement possible !</p>
-            <a href="contact.php" class="white-btn">Contactez-nous</a>
+            <a href="{{route('contact')}}" class="white-btn">Contactez-nous</a>
         </div>
     </section>
 </x-app-layout>

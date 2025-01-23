@@ -1,12 +1,17 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('plantes') }} 
-        </h2>
-    </x-slot>
  
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <!-- bouton ajouter une plante -->
+            <div style="margin-top:2rem; text-align:center;" class ="w-full h-full mb-24">
+                <a href="{{ route('plantes.ajout')}}" class="w-[400px] h-[100px] p-[30px] rounded-xl text-5xl bg-red-700 hover:bg-red-800  delete-all text-white m-auto p-auto justify-center items-center  text-center "
+                   onclick="">
+                    Ajouter une plante
+                </a>
+            </div>
+
+            
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <table> 
@@ -28,12 +33,12 @@
                                     <form method="GET" action="{{ route('plantes.edit', $plante->id) }}">
                                         @csrf
                                         @method('GET')
-                                        <button class="btn">Modifier</button>
+                                        <button class="option-btn">Modifier</button>
                                     </form>
                                     <form method="GET" action="{{ route('plantes.delete', $plante->id) }}">
                                         @csrf
                                         {{-- @method('POST') --}}
-                                        <button class="w-[400px] bg-red-500 btn " onclick="return confirm('Êtes vous sûr de supprimer cette plante ?');">Supprimer</button>
+                                        <button class="delete-btn " onclick="return confirm('Êtes vous sûr de supprimer cette plante ?');">Supprimer</button>
                                     </form>
                                 </div>
                             </div>
@@ -47,11 +52,4 @@
         </div>
     </div>
 
-
-    <div style="margin-top:2rem; text-align:center;" class ="w-full h-full mb-24">
-        <a href="{{ route('plantes.ajout')}}" class="w-[400px] h-[100px] p-[30px] rounded-xl text-5xl bg-red-700 hover:bg-red-800  delete-all text-white m-auto p-auto justify-center items-center  text-center "
-           onclick="">
-            Ajouter une plante
-        </a>
-    </div>
 </x-app-layout>

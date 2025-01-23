@@ -6,8 +6,7 @@
             <a href="{{ route('home') }}">Accueil</a>
             <a href="{{ route('about') }}">À propos</a>
             <a href="{{ route('shop') }}">Boutique</a>
-            <a href="{{ route('order') }}">Commandes</a>
-            <a href="#">Recherche</a>
+            <a href="{{ route('shop') }}">Recherche</a>
         </div>
 
         <div class="box">
@@ -27,5 +26,5 @@
 
     <p class="credit">Créé par <a href="https://github.com/isicparis/ISIcPARIS" target="_blank">ISIcPARIS</a> @
         <?php echo date('Y'); ?>
-        | Tous droits réservés ! &copy;</p>
+        | &copy;</p>
 </section>

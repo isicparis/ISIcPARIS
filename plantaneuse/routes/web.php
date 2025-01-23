@@ -48,8 +48,8 @@ Route::post('/plantes/create', [\App\Http\Controllers\PlanteController::class, '
 Route::get('/plantes/ajouter', [\App\Http\Controllers\PlanteController::class, 'ajout'])->name('plantes.ajout');
 Route::get('/plantes/{id}/edit', [\App\Http\Controllers\PlanteController::class, 'edit'])->name('plantes.edit');
 Route::get('/plantes/{id}/delete', [\App\Http\Controllers\PlanteController::class, 'delete'])->name('plantes.delete');
+Route::get('/plantes', [\App\Http\Controllers\PlanteController::class, 'index'])->name('plantes.index')->middleware('is_admin');
 
-Route::get('/plantes', [\App\Http\Controllers\PlanteController::class, 'index'])->name('plantes.index');
 Route::put('/plante/{id}', [PlanteController::class, 'update'])->name('plante.update');
 Route::put('/plantes/{id}', [PlanteController::class, 'update'])->name('plantes.update');
 Route::get('/dashboard', function () {

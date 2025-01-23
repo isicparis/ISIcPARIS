@@ -1,9 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Plante Edit') }}
         </h2>
-    </x-slot>
+    </x-slot> --}}
+    <div class="heading">
+        <h3>Mise à jour plante</h3>
+    </div>
+
 
     <style>
         /* Styles pour le conteneur principal */
@@ -264,7 +268,7 @@
                                     <input type="text" name="origine" id="origine" class="form-control" value="{{ $plante->origine }}">
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                                <button type="submit" class="btn1 btn-primary">Mettre à jour</button>
                             </div>
                         </form>
                     </section>

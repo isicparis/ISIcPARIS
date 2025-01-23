@@ -1,23 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Plante Edit') }}
+            {{ __('Modifier Plante') }}
         </h2>
-    </x-slot>
+    </x-slot> --}}
 
-    
-                    {{--<form action="{{ route('plantes.update', $plante->id) }}" method="post" enctype="multipart/form-data" class="box" id="result_para">
-                    @csrf
-                    @method('PUT')
-                    
-                    <img src="{{ asset('images/' . $plante->image) }}" alt="{{ $plante->nom_commun }}">
-                    <input type="number" name="product_quantity" value="{{ $plante->quantite }}" class="quantity">
-                    <input type="text" name="product_name" class="name" value="{{ $plante->nom_commun }}">
-                    <input type="text" name="product_price" class="price" value="{{ $plante->prix_achat }}">
-                    <input type="file" name="product_image">
-                    <a href="{{ route('plantes.update', $plante->id) }}">Mettre a jour</a>
-                    
-                    </form>--}}
+    <div class="heading">
+        <h3>Ajout plante</h3>
+    </div>
 
 
 <style>
@@ -280,7 +270,7 @@
                                 </div>
                         
                                 <!-- Bouton de soumission -->
-                                <button type="submit" class="btn btn-primary">Ajouter cette plante</button>
+                                <button type="submit" class="btn1 btn-primary">Ajouter cette plante</button>
                             
                         </form>
                     <!-- </div> -->

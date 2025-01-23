@@ -76,7 +76,7 @@ section {
     font-size: 4rem;
 }
 
-.btn,
+.btn1,
 .option-btn,
 .delete-btn,
 .white-btn {
@@ -95,7 +95,7 @@ section {
 }
 
 .white-btn,
-.btn {
+.btn1 {
     background-color: var(--purple);
 }
 
@@ -120,7 +120,7 @@ section {
 }
 
 
-.message {
+.message1 {
     position: sticky;
     top: 0;
     margin: 0 auto;
@@ -134,18 +134,18 @@ section {
     gap: 1.5rem;
 }
 
-.message span {
+.message1 span {
     font-size: 2rem;
     color: var(--black);
 }
 
-.message i {
+.message1 i {
     cursor: pointer;
     color: var(--red);
     font-size: 2.5rem;
 }
 
-.message i:hover {
+.message1 i:hover {
     transform: rotate(90deg);
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);

@@ -3,7 +3,7 @@
 
     <div class="heading">
         <h3>Contactez-nous</h3>
-        <p><a href="{{ url('/') }}">Accueil</a> / Contact</p>
+        <p><a href="{{ route('home') }}">Accueil</a> / Contact</p>
     </div>
 
     <section class="contact">
