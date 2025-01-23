@@ -232,15 +232,18 @@
                                 <!-- Floraison -->
                                 <div class="form-group">
                                     <label for="floraison">Floraison</label>
-                                    <input type="text" name="floraison" id="floraison" class="form-control" value="{{ $plante->floraison }}">
+                                    <select name="toxicite" id="toxicite" class="form-control h-[60px] pl-12 text-bold text-4xl text-bold">
+                                        <option value="1" selected>Oui</option>
+                                        <option value="0">Non</option>
+                                    </select>
                                 </div>
 
                                 <!-- Toxicité -->
                                 <div class="form-group">
                                     <label for="toxicite">Toxicité</label>
-                                    <select name="toxicite" id="toxicite" class="form-control">
-                                        <option value="1" {{ $plante->toxicite == 1 ? 'selected' : '' }}>Oui</option>
-                                        <option value="0" {{ $plante->toxicite == 0 ? 'selected' : '' }}>Non</option>
+                                    <select name="toxicite" id="toxicite" class="form-control h-[60px] pl-12 text-bold text-4xl text-bold">
+                                        <option value="1" selected>Oui</option>
+                                        <option value="0">Non</option>
                                     </select>
                                 </div>
 
