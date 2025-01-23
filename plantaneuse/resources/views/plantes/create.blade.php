@@ -114,6 +114,21 @@
 .img-thumbnail:hover {
     transform: scale(1.1); /* Agrandit légèrement l'image au survol */
 }
+.zidfaza input {
+            height : 60px ;
+            padding-left : 30px ;
+            font-size: medium;
+            
+        }
+        .zidfaza  label{
+            font  : bold
+        }
+        .zidfaza textarea {
+            height : 60px ;
+            padding-left : 30px ;
+            padding-top : 18px ;
+            font-size: medium;
+        }
 
 
 </style>
@@ -122,12 +137,13 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <section class="home-products">
+                    <section class="home-products text-3xl  zidfaza">
                     <!-- <div class="box-container"> -->
-                        <form action="{{ route('plantes.create') }}" method="PUT" enctype="multipart/form-data">
+                        <form action="{{ route('plantes.create') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
-                            <div class="box" id="result_para">
+
+                            
+                            {{-- @method('POST') --}}
                                 <!-- Nom scientifique -->
                                 <div class="form-group">
                                     <label for="nom_scientifique">Nom scientifique</label>
@@ -234,7 +250,7 @@
                                 <div class="form-group">
                                     <label for="toxicite">Toxicité</label>
                                     <select name="toxicite" id="toxicite" class="form-control">
-                                        <option value="1">Oui</option>
+                                        <option value="1" selected>Oui</option>
                                         <option value="0">Non</option>
                                     </select>
                                 </div>
@@ -265,7 +281,7 @@
                         
                                 <!-- Bouton de soumission -->
                                 <button type="submit" class="btn btn-primary">Ajouter cette plante</button>
-                            </div>
+                            
                         </form>
                     <!-- </div> -->
                     </section>

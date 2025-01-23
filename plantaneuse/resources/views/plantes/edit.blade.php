@@ -5,174 +5,271 @@
         </h2>
     </x-slot>
 
-    
-                    {{--<form action="{{ route('plantes.update', $plante->id) }}" method="post" enctype="multipart/form-data" class="box" id="result_para">
-                    @csrf
-                    @method('PUT')
-                    
-                    <img src="{{  $plante->image) }}" alt="{{ $plante->nom_commun }}">
-                    <input type="number" name="product_quantity" value="{{ $plante->quantite }}" class="quantity">
-                    <input type="text" name="product_name" class="name" value="{{ $plante->nom_commun }}">
-                    <input type="text" name="product_price" class="price" value="{{ $plante->prix_achat }}">
-                    <input type="file" name="product_image">
-                    <a href="{{ route('plantes.update', $plante->id) }}">Mettre a jour</a>
-                    
-                    </form>--}}
+    <style>
+        /* Styles pour le conteneur principal */
+        .py-12 {
+            padding: 3rem 0;
+        }
 
+        .max-w-7xl {
+            max-width: 112rem;
+            margin: 0 auto;
+        }
 
-<style>
-    /* Styles pour le conteneur principal */
-.py-12 {
-    padding: 3rem 0;
-}
+        .sm\\:px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
 
-.max-w-7xl {
-    max-width: 112rem;
-    margin: 0 auto;
-}
+        .lg\\:px-8 {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
 
-.sm\\:px-6 {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-}
+        /* Styles pour la carte */
+        .bg-white {
+            background-color: #ffffff;
+        }
 
-.lg\\:px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
+        .shadow-sm {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
 
-/* Styles pour la carte */
-.bg-white {
-    background-color: #ffffff;
-}
+        .sm\\:rounded-lg {
+            border-radius: 0.5rem;
+        }
 
-.shadow-sm {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
+        .p-6 {
+            padding: 1.5rem;
+        }
 
-.sm\\:rounded-lg {
-    border-radius: 0.5rem;
-}
+        .text-gray-900 {
+            color: #1a202c;
+        }
 
-.p-6 {
-    padding: 1.5rem;
-}
+        /* Section produits */
+        .home-products {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
 
-.text-gray-900 {
-    color: #1a202c;
-}
+        /* Formulaire */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-/* Section produits */
-.home-products {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
 
-/* Formulaire */
-.form-group {
-    margin-bottom: 1.5rem;
-}
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            background-color: #f7fafc;
+            color: #4a5568;
+            font-size: 1rem;
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #4a5568;
-}
+        .form-control:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
 
-.form-control {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.375rem;
-    background-color: #f7fafc;
-    color: #4a5568;
-    font-size: 1rem;
-}
+        /* Image */
+        .img-thumbnail {
+            display: block; /* Nécessaire pour que le centrage fonctionne */
+            margin: 1rem auto; /* Centre horizontalement avec auto sur les marges */
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            max-width: 100%; /* Empêche l'image de déborder de son conteneur */
+            width: 200px; /* Taille de l'image en pixels (modifiable selon besoin) */
+            height: auto; /* Garde les proportions de l'image */
+            transition: transform 0.3s ease; /* Ajoute une animation pour l'agrandissement */
+        }
 
-.form-control:focus {
-    outline: none;
-    border-color: #3182ce;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
-}
+        .img-thumbnail:hover {
+            transform: scale(1.1); /* Agrandit légèrement l'image au survol */
+        }
 
+        .zidfaza input {
+            height : 60px ;
+            padding-left : 30px ;
+            font-size: medium;
+            
+        }
+        .zidfaza  label{
+            font  : bold
+        }
+        .zidfaza textarea {
+            height : 60px ;
+            padding-left : 30px ;
+            padding-top : 18px ;
+            font-size: medium;
+        }
+    </style>
 
-
-/* Image */
-.img-thumbnail {
-    display: block; /* Nécessaire pour que le centrage fonctionne */
-    margin: 1rem auto; /* Centre horizontalement avec auto sur les marges */
-    border: 1px solid #e2e8f0;
-    border-radius: 0.375rem;
-    max-width: 100%; /* Empêche l'image de déborder de son conteneur */
-    width: 200px; /* Taille de l'image en pixels (modifiable selon besoin) */
-    height: auto; /* Garde les proportions de l'image */
-    transition: transform 0.3s ease; /* Ajoute une animation pour l'agrandissement */
-}
-
-.img-thumbnail:hover {
-    transform: scale(1.1); /* Agrandit légèrement l'image au survol */
-}
-
-
-</style>
-
-            <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <section class="home-products">
-                    <!-- <div class="box-container"> -->
-                    <form action="{{ route('plantes.update', $plante->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div class="box" id="result_para">
-                        <div class="form-group">
-                            <label for="nom_scientifique">Nom scientifique</label>
-                            <input type="text" name="nom_scientifique" id="nom_scientifique" value="{{ old('nom_scientifique', $plante->nom_scientifique) }}" class="form-control" required>
-                        </div>
+                    <section class="home-products text-3xl  zidfaza">
+                        <form action="{{ route('plantes.update', $plante->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
 
-                        <div class="form-group">
-                            <label for="nom_commun">Nom commun</label>
-                            <input type="text" name="nom_commun"  id="nom_commun" value="{{ old('nom_commun', $plante->nom_commun) }}" class="form-control">
-                        </div>
+                            <div class="box" id="result_para">
 
-                        <!-- Répétez les champs pour tous les autres attributs -->
+                                <!-- Nom scientifique -->
+                                <div class="form-group">
+                                    <label for="nom_scientifique">Nom scientifique</label>
+                                    <input type="text" name="nom_scientifique" id="nom_scientifique" class="form-control" value="{{ $plante->nom_scientifique }}" required>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="image">Image</label>
-                            <input type="file" name="image" id="image" class="form-control">
-                            @if($plante->image)
-                            <img src="{{ asset($plante->image) }}" alt="Image de la plante" class="img-thumbnail mt-2" width="150">
-                            @endif
-                        </div>
+                                <!-- Nom commun -->
+                                <div class="form-group">
+                                    <label for="nom_commun">Nom commun</label>
+                                    <input type="text" name="nom_commun" id="nom_commun" class="form-control" value="{{ $plante->nom_commun }}">
+                                </div>
 
-                        <div class="form-group">
-                            <label for="quantite">Quantité</label>
-                            <input type="number" name="quantite"  id="quantite" value="{{ old('quantite', $plante->quantite) }}" class="form-control" required>
-                        </div>
+                                <!-- Famille -->
+                                <div class="form-group">
+                                    <label for="famille">Famille</label>
+                                    <input type="text" name="famille" id="famille" class="form-control" value="{{ $plante->famille }}">
+                                </div>
 
-                        <div class="form-group">
-                            <label for="prix_achat">Prix d'achat</label>
-                            <input type="number" name="prix_achat"  id="prix_achat" value="{{ old('prix_achat', $plante->prix_achat) }}" step="0.01" class="form-control" required>
-                        </div>
+                                <!-- Genre -->
+                                <div class="form-group">
+                                    <label for="genre">Genre</label>
+                                    <input type="text" name="genre" id="genre" class="form-control" value="{{ $plante->genre }}">
+                                </div>
 
-                        <div class="form-group">
-                            <label for="prix_vente">Prix de vente</label>
-                            <input type="number" name="prix_vente"  id="prix_vente" value="{{ old('prix_vente', $plante->prix_vente) }}" step="0.01" class="form-control" required>
-                        </div>
+                                <!-- Espèce -->
+                                <div class="form-group">
+                                    <label for="espece">Espèce</label>
+                                    <input type="text" name="espece" id="espece" class="form-control" value="{{ $plante->espece }}">
+                                </div>
 
+                                <!-- Description -->
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea name="description" id="description" class="form-control">{{ $plante->description }}</textarea>
+                                </div>
 
-                        <button type="submit" class="btn1 btn-primary">Mettre à jour</button>
-                        </div>
-                    </form>
-                    <!-- </div> -->
+                                <!-- Image -->
+                                <div class="form-group">
+                                    <label for="image">Image</label>
+                                    <input type="file" name="image" id="image" class="form-control">
+                                    @if($plante->image)
+                                    <img src="{{ asset($plante->image) }}" alt="Image de la plante" class="img-thumbnail mt-2" width="150">
+                                    @endif
+                                </div>
+
+                                <!-- Quantité -->
+                                <div class="form-group">
+                                    <label for="quantite">Quantité</label>
+                                    <input type="number" name="quantite" id="quantite" class="form-control" value="{{ $plante->quantite }}" required>
+                                </div>
+
+                                <!-- Prix d'achat -->
+                                <div class="form-group">
+                                    <label for="prix_achat">Prix d'achat</label>
+                                    <input type="number" name="prix_achat" id="prix_achat" step="0.01" class="form-control" value="{{ $plante->prix_achat }}" required>
+                                </div>
+
+                                <!-- Prix de vente -->
+                                <div class="form-group">
+                                    <label for="prix_vente">Prix de vente</label>
+                                    <input type="number" name="prix_vente" id="prix_vente" step="0.01" class="form-control" value="{{ $plante->prix_vente }}" required>
+                                </div>
+
+                                <!-- Tags -->
+                                <div class="form-group">
+                                    <label for="tags">Tags</label>
+                                    <input type="text" name="tags" id="tags" class="form-control" value="{{ $plante->tags }}">
+                                </div>
+
+                                <!-- Type de plante -->
+                                <div class="form-group">
+                                    <label for="type_de_plante">Type de plante</label>
+                                    <input type="text" name="type_de_plante" id="type_de_plante" class="form-control" value="{{ $plante->type_de_plante }}">
+                                </div>
+
+                                <!-- Niveau d'entretien -->
+                                <div class="form-group">
+                                    <label for="niveau_entretien">Niveau d'entretien</label>
+                                    <input type="text" name="niveau_entretien" id="niveau_entretien" class="form-control" value="{{ $plante->niveau_entretien }}">
+                                </div>
+
+                                <!-- Besoins en lumière -->
+                                <div class="form-group">
+                                    <label for="besoins_lumiere">Besoins en lumière</label>
+                                    <input type="text" name="besoins_lumiere" id="besoins_lumiere" class="form-control" value="{{ $plante->besoins_lumiere }}">
+                                </div>
+
+                                <!-- Fréquence d'arrosage -->
+                                <div class="form-group">
+                                    <label for="frequence_arrosage">Fréquence d'arrosage</label>
+                                    <input type="text" name="frequence_arrosage" id="frequence_arrosage" class="form-control" value="{{ $plante->frequence_arrosage }}">
+                                </div>
+
+                                <!-- Port de la plante -->
+                                <div class="form-group">
+                                    <label for="port_plante">Port de la plante</label>
+                                    <input type="text" name="port_plante" id="port_plante" class="form-control" value="{{ $plante->port_plante }}">
+                                </div>
+
+                                <!-- Floraison -->
+                                <div class="form-group">
+                                    <label for="floraison">Floraison</label>
+                                    <input type="text" name="floraison" id="floraison" class="form-control" value="{{ $plante->floraison }}">
+                                </div>
+
+                                <!-- Toxicité -->
+                                <div class="form-group">
+                                    <label for="toxicite">Toxicité</label>
+                                    <select name="toxicite" id="toxicite" class="form-control">
+                                        <option value="1" {{ $plante->toxicite == 1 ? 'selected' : '' }}>Oui</option>
+                                        <option value="0" {{ $plante->toxicite == 0 ? 'selected' : '' }}>Non</option>
+                                    </select>
+                                </div>
+
+                                <!-- Couleur -->
+                                <div class="form-group">
+                                    <label for="couleur">Couleur</label>
+                                    <input type="text" name="couleur" id="couleur" class="form-control" value="{{ $plante->couleur }}">
+                                </div>
+
+                                <!-- Taille -->
+                                <div class="form-group">
+                                    <label for="taille">Taille</label>
+                                    <input type="text" name="taille" id="taille" class="form-control" value="{{ $plante->taille }}">
+                                </div>
+
+                                <!-- Saisonnalité -->
+                                <div class="form-group">
+                                    <label for="saisonnalite">Saisonnalité</label>
+                                    <input type="text" name="saisonnalite" id="saisonnalite" class="form-control" value="{{ $plante->saisonnalite }}">
+                                </div>
+
+                                <!-- Origine -->
+                                <div class="form-group">
+                                    <label for="origine">Origine</label>
+                                    <input type="text" name="origine" id="origine" class="form-control" value="{{ $plante->origine }}">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                            </div>
+                        </form>
                     </section>
                 </div>
             </div>
         </div>
     </div>
-    
-
 </x-app-layout>

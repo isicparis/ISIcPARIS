@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Plante;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use Supabase\Storage\StorageClient;
 
 class PlanteController extends Controller
 {
@@ -25,11 +27,10 @@ class PlanteController extends Controller
     {
         return view('plantes.create');
     }
-    public function create(Request $request){
-        // return "ahla";
-    // Validation des données
-        
-        // dd($request);
+
+    public function create(Request $request)
+    {
+        // Validate the incoming request
         $request->validate([
             'nom_scientifique' => 'required|string|max:255',
             'nom_commun' => 'nullable|string|max:255',
@@ -55,23 +56,47 @@ class PlanteController extends Controller
             'origine' => 'nullable|string|max:255',
         ]);
 
-        // // Créer une nouvelle plante
+        // Create a new Plante instance
         $plante = new Plante();
         $plante->fill($request->except('image'));
 
-        // Gérer l'image
+        // Automatically increment ID (optional, if not using database auto-increment)
+        $plante->id = Plante::max('id') + 1;
+
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $plante->image = $imagePath;
+            $file = $request->file('image');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Get Supabase credentials from environment variables
+            $supabaseUrl = 'https://jzglofusihfqhmrmszho.supabase.co';
+            $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6Z2xvZnVzaWhmcWhtcm1zemhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc1NDYxNjcsImV4cCI6MjA1MzEyMjE2N30.Ft7Z6c1hCYBbX8XDTNuji1qwe0j1AN2ErL6T6FIuE5I'; // Utilisez une variable d'environnement pour la clé
+            $bucketName = 'Images_plantes_backet_by_karim';
+
+            // Prepare the file contents
+            $fileContent = file_get_contents($file->getRealPath());
+            // dd ($file->getRealPath());
+            // Use Guzzle to send the request to Supabase
+            $client = new Client();
+            $imageUrl =  "$supabaseUrl/storage/v1/object/$bucketName/$fileName" ;
+            $response = $client->request('POST', $imageUrl, [
+                'headers' => [
+                    'Authorization' => "Bearer $supabaseKey",
+                    'Content-Type' => $file->getMimeType(),
+                ],
+                'body' => $fileContent,
+            ]);
+
+            $plante->image = "$supabaseUrl/storage/v1/object/public/$bucketName/$fileName" ;
         }
 
-        // Sauvegarder la plante dans la base de données
-        $id = $plante->save();
-        
-        
-        // Rediriger avec un message de succè
+        // Save the plante to the database
+        $plante->save();
+
+        // Redirect with a success message
         return redirect()->route('plantes.index')->with('success', 'Plante ajoutée avec succès.');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -94,9 +119,9 @@ class PlanteController extends Controller
      */
     public function edit($id)
     {
-        //
-        // $plante = Plante::where('id', $id)->get()[0];
-        // return view('plantes.edit', compact('plante'));
+        
+        $plante = Plante::where('id', $id)->get()[0];
+        return view('plantes.edit', compact('plante'));
     }
 
 
@@ -133,28 +158,54 @@ class PlanteController extends Controller
             'origine' => 'nullable|string|max:255',
         ]);
 
-        // $plante = Plante::findOrFail($id);
-        // $plante->update($validated);
+        $plante = Plante::findOrFail($id);
+        $plante->update($validated);
 
-        /*
+        
         ///////////////////// a travailler
         
 
-        // Path do the image
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images/plantes', 'public');
-            $plante->image = $imagePath;
-            $plante->save();
+            $file = $request->file('image');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Get Supabase credentials from environment variables
+            $supabaseUrl = 'https://jzglofusihfqhmrmszho.supabase.co';
+            $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6Z2xvZnVzaWhmcWhtcm1zemhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc1NDYxNjcsImV4cCI6MjA1MzEyMjE2N30.Ft7Z6c1hCYBbX8XDTNuji1qwe0j1AN2ErL6T6FIuE5I'; // Utilisez une variable d'environnement pour la clé
+            $bucketName = 'Images_plantes_backet_by_karim';
+
+            // Prepare the file contents
+            $fileContent = file_get_contents($file->getRealPath());
+            // dd ($file->getRealPath());
+            // Use Guzzle to send the request to Supabase
+            $client = new Client();
+            $imageUrl =  "$supabaseUrl/storage/v1/object/$bucketName/$fileName" ;
+            $response = $client->request('POST', $imageUrl, [
+                'headers' => [
+                    'Authorization' => "Bearer $supabaseKey",
+                    'Content-Type' => $file->getMimeType(),
+                ],
+                'body' => $fileContent,
+            ]);
+
+            $plante->image = "$supabaseUrl/storage/v1/object/public/$bucketName/$fileName" ;
         }
 
         ////////////////////
-        */
-        // return redirect()->route('plantes.edit', $id)
-        //     ->with('success', 'Plante mise à jour avec succès.');
+        
+        $plante->save();
+
+        return redirect()->route('plantes.index')
+            ->with('success', 'Plante mise à jour avec succès.');
     }
 
-
-
+    public function delete ($id){
+        $plante = Plante::findOrFail($id);
+        $plante -> delete();
+        return redirect()->route('plantes.index')
+            ->with('success', 'Plante mise à jour avec succès.');
+    }
 
     /**
      * Remove the specified resource from storage.

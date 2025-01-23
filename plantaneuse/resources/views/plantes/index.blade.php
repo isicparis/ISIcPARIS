@@ -23,7 +23,19 @@
                                 <input type="hidden" name="product_name" value="{{$plante->nom_commun}}">
                                 <input type="hidden" name="product_price" value="<{{$plante->prix_achat}}">
                                 <input type="hidden" name="product_image" value="{{$plante->image}}">
-                                <a href="{{ route('plantes.edit', $plante->id) }}" class="btn1">Edit</a>
+                            
+                                <div class="flex justify-center items-center">
+                                    <form method="GET" action="{{ route('plantes.edit', $plante->id) }}">
+                                        @csrf
+                                        @method('GET')
+                                        <button class="btn">Modifier</button>
+                                    </form>
+                                    <form method="GET" action="{{ route('plantes.delete', $plante->id) }}">
+                                        @csrf
+                                        {{-- @method('POST') --}}
+                                        <button class="w-[400px] bg-red-500 btn " onclick="return confirm('Êtes vous sûr de supprimer cette plante ?');">Supprimer</button>
+                                    </form>
+                                </div>
                             </div>
                             @endforeach
                         </div>
@@ -36,8 +48,8 @@
     </div>
 
 
-    <div style="margin-top:2rem; text-align:center;">
-        <a href="{{ route('plantes.ajout')}}" class="delete-btn delete-all "
+    <div style="margin-top:2rem; text-align:center;" class ="w-full h-full mb-24">
+        <a href="{{ route('plantes.ajout')}}" class="w-[400px] h-[100px] p-[30px] rounded-xl text-5xl bg-red-700 hover:bg-red-800  delete-all text-white m-auto p-auto justify-center items-center  text-center "
            onclick="">
             Ajouter une plante
         </a>
