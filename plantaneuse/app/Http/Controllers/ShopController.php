@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use App\Models\Plante;
+use Illuminate\Support\Facades\Http;
+
 
 class ShopController extends Controller
 {
@@ -35,65 +37,123 @@ class ShopController extends Controller
     // }
 
 
-    public function search(Request $request)
-    {
-        // Récupérer l'entrée utilisateur
-        $plantes = Plante::all();
-        $filters = $this->getFilters();
-        $search = $request->input('search_word');
+    // public function search(Request $request)
+    // {
+    //     // Récupérer l'entrée utilisateur
+    //     $plantes = Plante::all();
+    //     $filters = $this->getFilters();
+    //     $search = $request->input('search_word');
 
-        // Construire la commande pour exécuter le script Python
-        $scriptPath = '../../Indexation_requete/main.py';
-        $command = "python \"$scriptPath\" $search";
+    //     // Construire la commande pour exécuter le script Python
+    //     $scriptPath = '../../Indexation_requete/main.py';
+    //     $command = "python \"$scriptPath\" $search";
 
-        // Exécuter la commande
-        $output = shell_exec($command);
+    //     // Exécuter la commande
+    //     $output = shell_exec($command);
 
-        // Décoder le JSON renvoyé par le script Python
-        $results = json_decode($output, true);
+    //     // Décoder le JSON renvoyé par le script Python
+    //     $results = json_decode($output, true);
 
-        // Vérifier si le résultat est valide
-        // if (isset($results['error'])) {
-        //     return response()->json(['error' => $results['error']], 400);
-        // }
+    //     // Vérifier si le résultat est valide
+    //     // if (isset($results['error'])) {
+    //     //     return response()->json(['error' => $results['error']], 400);
+    //     // }
 
-        if (isset($results['error'])) {
-            $message = 'Aucun résultat trouvé.';
-            return view('shop', compact('plantes', 'message'));
-        }
-        $plantes = Plante::whereIn('id', $results)->get();
+    //     if (isset($results['error'])) {
+    //         $message = 'Aucun résultat trouvé.';
+    //         return view('shop', compact('plantes', 'message'));
+    //     }
+    //     $plantes = Plante::whereIn('id', $results)->get();
 
-        // Construire la commande pour exécuter le script Python
-        $scriptPath = '..//..//Indexation_requete//main.py';
-        $command = "python \"$scriptPath\" $search";
+    //     // Construire la commande pour exécuter le script Python
+    //     $scriptPath = '..//..//Indexation_requete//main.py';
+    //     $command = "python \"$scriptPath\" $search";
 
-        // Exécuter la commande
-        $output = shell_exec($command);
-        //dd($output);
-        // Décoder le JSON renvoyé par le script Python
-        $results = json_decode($output, true);
+    //     // Exécuter la commande
+    //     $output = shell_exec($command);
+    //     //dd($output);
+    //     // Décoder le JSON renvoyé par le script Python
+    //     $results = json_decode($output, true);
 
-        // Vérifier si le résultat est valide
-        // if (isset($results['error'])) {
-        //     return response()->json(['error' => $results['error']], 400);
-        // }
-        //dd($results);
-        if (!$results) {
-            $message = 'Aucun résultat trouvé.';
-            return view('shop', array_merge(compact('plantes', 'message'), $filters));
-        }
+    //     // Vérifier si le résultat est valide
+    //     // if (isset($results['error'])) {
+    //     //     return response()->json(['error' => $results['error']], 400);
+    //     // }
+    //     //dd($results);
+    //     if (!$results) {
+    //         $message = 'Aucun résultat trouvé.';
+    //         return view('shop', array_merge(compact('plantes', 'message'), $filters));
+    //     }
 
-        $plantes = Plante::whereIn('id', $results)->get();
+    //     $plantes = Plante::whereIn('id', $results)->get();
 
-        // Vérifiez si des plantes ont été trouvées
-        if ($plantes->isEmpty()) {
-            $message = 'Aucun résultat trouvé.';
-            return view('shop', array_merge(compact('plantes', 'message'), $filters));
-        }
+    //     // Vérifiez si des plantes ont été trouvées
+    //     if ($plantes->isEmpty()) {
+    //         $message = 'Aucun résultat trouvé.';
+    //         return view('shop', array_merge(compact('plantes', 'message'), $filters));
+    //     }
 
-        // Passez les plantes trouvées à la vue
-        return view('shop', array_merge(compact('plantes'), $filters));
+    //     // Passez les plantes trouvées à la vue
+    //     return view('shop', array_merge(compact('plantes'), $filters));
+
+    // }
+
+    public function search(Request $request) {
+        $response = Http::get('http://localhost:5000/search', [
+            'word' => $request->input('search_word')
+        ]);
+        $query =$request->input('search_word');       
+        $results= response()->json($response->json());
+        $responseData = $response->json(); // Récupère la réponse JSON sous forme de tableau
+        $ids = $responseData['results'] ?? [];
+      
+            // // Récupérer l'entrée utilisateur
+            // $plantes=Plante::all();
+            // $search = $request->input('search_word');
+        
+            // // Construire la commande pour exécuter le script Python
+            // $scriptPath = '../../Indexation_requete/main.py';
+            // $command = "python3 \"$scriptPath\" $search";
+        
+            // // Exécuter la commande
+            // $output = shell_exec($command);
+        
+            // // Décoder le JSON renvoyé par le script Python
+            // $results = json_decode($output, true);
+        
+            // // Vérifier si le résultat est valide
+            // // if (isset($results['error'])) {
+            // //     return response()->json(['error' => $results['error']], 400);
+            // // }
+        
+            // if (isset($responseData['error'])) { // Vérifiez les données JSON directement
+            //     $message = 'Aucun résultat trouvé.';
+            //     return view('shop', compact('plantes', 'message'));
+            // }
+            // $plantes = Plante::whereIn('id', $results)->get();
+
+            $filters = $this->getFilters();
+            if (empty($ids)) {
+                // Aucun résultat trouvé
+                $erreur = 'Aucune plante trouvée pour le mot "' . $query . '".';
+                return view('shop', array_merge(compact('erreur'), $filters));
+                //return view('shop', compact('erreur'));
+            }
+        
+            $plantes = Plante::whereIn('id', $ids)->get();
+
+            // Vérifiez si des plantes ont été trouvées
+            if ($plantes->isEmpty()) {
+                $message = 'Aucun résultat trouvé.';
+                return view('shop', array_merge(compact('message'), $filters));
+                //return view('shop', compact('message'));
+            }
+        
+            // Passez les plantes trouvées à la vue
+            return view('shop', array_merge(compact('plantes'), $filters));
+            //return view('shop', compact('plantes'));
     }
+
 
 
     public function addToCart(Request $request)
@@ -155,7 +215,6 @@ class ShopController extends Controller
         // Récupérer les critères depuis la requête POST
         $criteres = $request->all(); // Récupère tous les critères envoyés via POST
 
-
         // Vérifier que des critères ont été envoyés
         if (empty($criteres)) {
             return response()->json([
@@ -163,24 +222,12 @@ class ShopController extends Controller
             ], 400);
         }
 
-        // Extraire les valeurs de prix
-        $prixMin = $criteres['prix_min'] ?? 0;
-        $prixMax = $criteres['prix_max'] ?? 1000;
-
-        // Supprimer les prix du tableau d'origine
-        unset($criteres['prix_min']);
-        unset($criteres['prix_max']);
-
-
         // Récupérer toutes les plantes
         $plantes = Plante::all();
 
         // Créer une collection pour stocker le nombre de conditions remplies et l'ID
-        $resultats = $plantes->map(function ($plante) use ($criteres, $prixMin, $prixMax) {
+        $resultats = $plantes->map(function ($plante) use ($criteres) {
             $nbConditionRemplies = 0;
-            if ($plante->prix_vente >= $prixMin && $plante->prix_vente <= $prixMax) {
-                $nbConditionRemplies++;
-            }
 
             // Parcourir les critères et vérifier les conditions
             foreach ($criteres as $attribut => $valeurs) {
@@ -212,6 +259,7 @@ class ShopController extends Controller
             ->sortByDesc('nb_condition_remplies')
             ->values();
         $resultatIds = $resultatsTries->pluck('id')->toArray();
+        //dd($resultatIds);
 
 
 

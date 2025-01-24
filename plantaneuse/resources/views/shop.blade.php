@@ -124,13 +124,8 @@
 
             <section class="home-products">
 
-                @if (isset($results))
-                    <h3>Résultats de la recherche :</h3>
-                    <ul>
-                        @foreach ($results as $result)
-                            <li>Résultat : {{ $result }}</li>
-                        @endforeach
-                    </ul>
+                @if(isset($erreur))
+            <h3 class="querry" >{{ $erreur }}</h3>
                 @else
                     <!-- Liste des plantes -->
                     <h1 class="title">NOS PLANTES</h1>
