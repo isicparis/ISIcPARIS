@@ -47,7 +47,7 @@ $(document).ready(function () {
         // Met à jour le contenu de la liste des plantes
         $plantList[0].innerHTML = response.length 
             ? response.map(template).join('') 
-            : '<p class="no-results">Aucun résultat</p>';
+            : '';
     };
 
     // Fonction pour gérer la recherche

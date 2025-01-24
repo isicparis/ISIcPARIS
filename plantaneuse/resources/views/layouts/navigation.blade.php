@@ -59,17 +59,14 @@
                     <!-- Dropdown utilisateur -->
                     <div class="user-box">
                         <p>{{ Auth::user()->name }}</p>
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profil') }}
-                        </x-dropdown-link>
+                        <p>{{ Auth::user()->email }}</p>
+                        <p><a href="{{route('profile.edit')}}">Profil</a></p>
+                        <p>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                this.closest('form').submit();">
-                                {{ __('Déconnexion') }}
-                            </x-dropdown-link>
+                            <button type="submit" class="delete-btn">Déconnexion</button>
                         </form>
+                        </p>
                     </div>
                 @endauth
 
