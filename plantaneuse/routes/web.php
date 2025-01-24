@@ -15,9 +15,11 @@ use App\Http\Controllers\PlanteController;
  
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/', [HomeController::class, 'addToCart'])->name('home.addToCart');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/search', [ShopController::class, 'search'])->name('shop.search');
 Route::post('/shop', [ShopController::class, 'addToCart'])->name('shop.addToCart');
+
 Route::get('/order', [OrderController::class, 'index'])->name('order');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact');

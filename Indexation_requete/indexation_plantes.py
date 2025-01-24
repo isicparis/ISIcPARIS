@@ -8,12 +8,23 @@ Original file is located at
 """
 
 #pip install nltk
+import sys
+import os
+import io
 
+# Forcer l'encodage UTF-8 pour stdout et stderr
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8')
 import sys
 import json
 
 #pip install psycopg2-binary
 import psycopg2
+
+import time
+
+start_time = time.time()
 
 # Database URL
 DB_URL = "postgresql://postgres:Isicparis_123@db.jzglofusihfqhmrmszho.supabase.co:5432/postgres"
@@ -206,7 +217,7 @@ def poids_doc(doc, word, corpus):
 def aff_poids(corpus,mot):
   for doc in corpus:
     print("poids de ",doc,": ",poids_doc(doc,mot,corpus))
-
+aff_poids(lemmatized_corpus,'vert')
 
 mytexts = nltk.TextCollection(lemmatized_corpus.values())
 
@@ -339,3 +350,121 @@ liste_de_tf_idf_mot_indice_3=[w[3] for w in td_idf]
 # print(liste_de_tf_idf_mot_indice_3)
 # print(X.shape)
 
+
+def programme_affichage_par_ordre_de_pertinance(word):
+  ps = PorterStemmer()
+  word=ps.stem(word)
+  corpus=creation_corpus()
+  filtered_corpus=filter_corpus(corpus)
+  lemmatized_corpus=lemmatizer(filtered_corpus)
+  liste_finale=pertinance_par_ordre(lemmatized_corpus,word)
+  liste_matching_prefixe = liste_plantes_ayant_meme_prefixe_requete(word)
+  for id in liste_matching_prefixe:
+    if id not in liste_finale:
+      liste_finale.append(id)
+  return(liste_finale)
+
+
+
+
+
+
+
+
+
+
+
+"""**essaie avec l'intelligence artificielle**"""
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+stop_word = set(stopwords.words('english'))
+corpus_train = [
+    'I love programming in Python.',
+    'Python is a great programming language.',
+    'I enjoy solving problems with Python.',
+    'Is programming in Python fun?',
+]
+corpus_test = [
+    'Programming in Python is enjoyable.',
+    'Python programming is very popular.',
+    'Do you love solving problems with Python?',
+    'Learning Python programming is rewarding.',
+]
+dict=[]
+i=0
+# for i in range(len(corpus_train)):
+#     d=corpus_train[i]
+#     tokens = word_tokenize(d)
+#     filtered_text = " ".join(w for w in tokens if not (w in stop_word or w == "."))
+#     print(filtered_text)
+#     dict.append(filtered_text)
+#     print(dict)
+vectorizer = TfidfVectorizer()
+
+X1=vectorizer.fit(corpus_train)
+#print(X1.get_params())
+
+X = vectorizer.fit_transform(corpus_train)
+#print("deux" ,X)
+Y = vectorizer.transform(corpus_test)
+# print((X).toarray())
+# print((Y).toarray())
+td_idf=(X).toarray()
+#print(vectorizer.get_feature_names_out(4))
+liste_de_tf_idf_mot_indice_3=[w[3] for w in td_idf]
+# print(liste_de_tf_idf_mot_indice_3)
+# print(X.shape)
+
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+os.environ['FLASK_RUN_FROM_CLI'] = 'false'
+# Créer l'application Flask
+app = Flask(__name__)
+CORS(app) 
+# Endpoint pour rechercher des plantes par pertinence
+@app.route('/search', methods=['GET'])
+def search_plants():
+    word = request.args.get('word')  # Obtenir le mot-clé depuis les paramètres de la requête
+    if not word:
+        return jsonify({"error": "Veuillez fournir un mot-clé dans les paramètres de la requête"}), 400
+    
+    # Calculer la pertinence
+    ps = PorterStemmer()
+    stemmed_word = ps.stem(word)
+    corpus = creation_corpus()
+    filtered_corpus = filter_corpus(corpus)
+    lemmatized_corpus = lemmatizer(filtered_corpus)
+    
+    # Obtenir la liste des documents pertinents
+    liste_finale = pertinance_par_ordre(lemmatized_corpus, stemmed_word)
+    
+    # Ajouter les résultats avec le même préfixe
+    liste_matching_prefixe = liste_plantes_ayant_meme_prefixe_requete(word)
+    for id in liste_matching_prefixe:
+        if id not in liste_finale:
+            liste_finale.append(id)
+    
+    # Retourner les résultats
+    return jsonify({
+        "query": word,
+        "results": liste_finale
+    })
+
+# Endpoint pour afficher les plantes ayant le même préfixe que la requête
+
+@app.route('/prefix', methods=['GET'])
+def get_plants_by_prefix():
+    prefix = request.args.get('prefix')
+    if not prefix:
+        return jsonify({"error": "Veuillez fournir un préfixe dans les paramètres de la requête"}), 400
+    
+    # Appeler la fonction correspondante
+    liste_indices = liste_plantes_ayant_meme_prefixe_requete(prefix)
+    return jsonify({
+        "prefix": prefix,
+        "results": liste_indices
+    })
+
+# Lancer le serveur Flask
+if __name__ == '__main__':
+    app.run(debug=False, host='0.0.0.0', port=5000, use_reloader=False)

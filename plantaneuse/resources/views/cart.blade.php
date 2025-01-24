@@ -35,7 +35,7 @@
     @method('DELETE')
 </form>
               
-                    <img src="{{ asset('images/' . $plante->image) }}" alt="{{ $plante->nom_commun }}">
+                    <img src="{{ asset( $plante->image) }}" alt="{{ $plante->nom_commun }}">
                     <div class="name">{{ $plante->nom_commun }}</div>
                     <div class="price">${{ $plante->prix_achat }} /-</div>
                     <form action="{{ route('cart.update', $item) }}" method="POST">

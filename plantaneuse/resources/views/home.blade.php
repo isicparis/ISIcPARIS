@@ -13,21 +13,17 @@
         <h1 class="title">Nos Plantes Populaires</h1>
         <div class="box-container">
             @foreach ($plantes as $plante)
-                <form action="" method="post" class="box" id="result_para">
-                    <!-- Affichage de l'image -->
-                    <img src="{{ asset($plante->image) }}" alt="{{ $plante->nom_commun }}">
-
-                    <!--<img src="../images/{{ $plante->image }}" alt="{{ $plante->image }}">-->
-                    <div class="name">{{ $plante->nom_commun }}</div>
-                    <!-- Prix -->
-                    <div class="price">Euro {{ $plante->prix_achat }}</div>
-                    <!-- Quantité -->
-                    <input type="number" name="product_quantity" min="1" value="1" class="quantity">
-                    <input type="hidden" name="product_name" value="{{ $plante->nom_commun }}">
-                    <input type="hidden" name="product_price" value="{{ $plante->prix_achat }}">
-                    <input type="hidden" name="product_image" value="{{ $plante->image }}">
-                    <input type="submit" value="Ajouter au panier" name="add_to_cart" class="btn1">
-                </form>
+            <form action="{{ route('shop.addToCart') }}" method="post" class="box" id="result_para">
+                @csrf
+                <img src="{{ asset($plante->image) }}" alt="{{ $plante->nom_commun }}">
+                <div class="name">{{$plante->nom_commun}}</div>
+                <div class="price">{{$plante->prix_achat}} $</div>
+                <input type="number" name="product_quantity" min="1" value="1" class="quantity">
+                <input type="hidden" name="product_name" value="{{$plante->nom_commun}}">
+                <input type="hidden" name="product_price" value="<{{$plante->prix_achat}}">
+                <input type="hidden" name="product_image" value="{{$plante->image}}">
+                <input type="submit" value="Ajouter au panier" name="add_to_cart" class="btn1">
+            </form>
             @endforeach
         </div>
         <input type="hidden" id="result_no" value="3">
