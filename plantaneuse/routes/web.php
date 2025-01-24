@@ -13,7 +13,8 @@ use App\Http\Controllers\PlanteController;
 
 // ...
  
-
+Route::post('/shop/autocomplete', [ShopController::class, 'autocomplete'])->name('shop.autocomplete');
+Route::get('/shop/autoload', [ShopController::class, 'autoload'])->name('shop.autoload');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/search', [ShopController::class, 'search'])->name('shop.search');
@@ -21,6 +22,7 @@ Route::post('/shop', [ShopController::class, 'addToCart'])->name('shop.addToCart
 Route::get('/order', [OrderController::class, 'index'])->name('order');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact');
+
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/order', [OrderController::class, 'index'])->name('order');
 Route::get('/shop/filter', [ShopController::class, 'filter'])->name('shop.filter');

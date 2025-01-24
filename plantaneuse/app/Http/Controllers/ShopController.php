@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -20,32 +22,46 @@ class ShopController extends Controller
         return view('shop', array_merge(compact('plantes'), $filters));
     }
 
-    public function search(Request $request) {
-            // Récupérer l'entrée utilisateur
-            $plantes=Plante::all();
-            $filters = $this->getFilters();
-            $search = $request->input('search_word');
-        
-            // Construire la commande pour exécuter le script Python
-            $scriptPath = '../../Indexation_requete/main.py';
-            $command = "python3 \"$scriptPath\" $search";
-        
-            // Exécuter la commande
-            $output = shell_exec($command);
-        
-            // Décoder le JSON renvoyé par le script Python
-            $results = json_decode($output, true);
-        
-            // Vérifier si le résultat est valide
-            // if (isset($results['error'])) {
-            //     return response()->json(['error' => $results['error']], 400);
-            // }
-        
-            if (isset($results['error'])) {
-                $message = 'Aucun résultat trouvé.';
-                return view('shop', compact('plantes', 'message'));
-            } 
-            $plantes = Plante::whereIn('id', $results)->get();
+    // public function index()
+    // {
+    //     // Récupérer 15 plantes par page
+    //     $plantes = Plante::paginate(9);
+
+    //     // Récupérer les valeurs uniques pour chaque champ de filtrage
+    //     $filters = $this->getFilters();
+
+    //     // Passez les plantes et les filtres à la vue
+    //     return view('shop', array_merge(compact('plantes'), $filters));
+    // }
+
+
+    public function search(Request $request)
+    {
+        // Récupérer l'entrée utilisateur
+        $plantes = Plante::all();
+        $filters = $this->getFilters();
+        $search = $request->input('search_word');
+
+        // Construire la commande pour exécuter le script Python
+        $scriptPath = '../../Indexation_requete/main.py';
+        $command = "python \"$scriptPath\" $search";
+
+        // Exécuter la commande
+        $output = shell_exec($command);
+
+        // Décoder le JSON renvoyé par le script Python
+        $results = json_decode($output, true);
+
+        // Vérifier si le résultat est valide
+        // if (isset($results['error'])) {
+        //     return response()->json(['error' => $results['error']], 400);
+        // }
+
+        if (isset($results['error'])) {
+            $message = 'Aucun résultat trouvé.';
+            return view('shop', compact('plantes', 'message'));
+        }
+        $plantes = Plante::whereIn('id', $results)->get();
 
         // Construire la commande pour exécuter le script Python
         $scriptPath = '..//..//Indexation_requete//main.py';
@@ -139,6 +155,7 @@ class ShopController extends Controller
         // Récupérer les critères depuis la requête POST
         $criteres = $request->all(); // Récupère tous les critères envoyés via POST
 
+
         // Vérifier que des critères ont été envoyés
         if (empty($criteres)) {
             return response()->json([
@@ -146,12 +163,24 @@ class ShopController extends Controller
             ], 400);
         }
 
+        // Extraire les valeurs de prix
+        $prixMin = $criteres['prix_min'] ?? 0;
+        $prixMax = $criteres['prix_max'] ?? 1000;
+
+        // Supprimer les prix du tableau d'origine
+        unset($criteres['prix_min']);
+        unset($criteres['prix_max']);
+
+
         // Récupérer toutes les plantes
         $plantes = Plante::all();
 
         // Créer une collection pour stocker le nombre de conditions remplies et l'ID
-        $resultats = $plantes->map(function ($plante) use ($criteres) {
+        $resultats = $plantes->map(function ($plante) use ($criteres, $prixMin, $prixMax) {
             $nbConditionRemplies = 0;
+            if ($plante->prix_vente >= $prixMin && $plante->prix_vente <= $prixMax) {
+                $nbConditionRemplies++;
+            }
 
             // Parcourir les critères et vérifier les conditions
             foreach ($criteres as $attribut => $valeurs) {
@@ -209,6 +238,48 @@ class ShopController extends Controller
         return view('shop', array_merge(compact('plantes'), $filters));
     }
 
+    public function autocomplete(Request $request): JsonResponse
+    {
+        Log::info("Autocomplete called");
+        $searchTerm = $request->input('search_word');
+        Log::info("Search term: " . $searchTerm);
+
+        if (empty($searchTerm)) {
+            Log::info("Search term is empty");
+            return response()->json([]);
+        }
+
+        try {
+            $suggestions = Plante::search($searchTerm)
+                ->orderBy('nom_commun')
+                ->limit(10)
+                ->get();
+
+            Log::info("Raw database results: " . json_encode($suggestions)); // Log raw results
+
+            $suggestionsArray = $suggestions->pluck('nom_commun')->toArray();
+            Log::info("Suggestions array: " . json_encode($suggestionsArray));
+
+            return response()->json($suggestionsArray);
+        } catch (\Exception $e) {
+            Log::error("Database error: " . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500); // Return error details
+        }
+    }
+    public function autoload(Request $request)
+    {
+        $search = $request->input('search_word');
+
+        if ($search) {
+            // Utiliser le scopeSearch corrigé
+            $plantes = Plante::search($search)->get();
+        } else {
+            // Récupérer toutes les plantes avec les champs nécessaires
+            $plantes = Plante::all(['id', 'nom_commun', 'prix_achat', 'image']);
+        }
+
+        return response()->json($plantes);
+    }
 
     private function getFilters()
     {
@@ -224,25 +295,5 @@ class ShopController extends Controller
             'saisonnalites' => Plante::distinct()->pluck('saisonnalite'),
             'origines' => Plante::distinct()->pluck('origine'),
         ];
-    }
-
-    public function filter()
-    {
-        $plantes = Plante::all();
-        // Récupérer les valeurs uniques pour chaque champ de filtrage
-        $prix_min = Plante::min('prix_vente');
-        $prix_max = Plante::max('prix_vente');
-        $prix_ventes = Plante::distinct()->pluck('prix_vente');
-        $types_plantes = Plante::distinct()->pluck('type_de_plante');
-        $niveaux_entretien = Plante::distinct()->pluck('niveau_entretien');
-        $tailles = Plante::distinct()->pluck('taille');
-        $besoins_lumiere = Plante::distinct()->pluck('besoins_lumiere');
-        $couleurs = Plante::distinct()->pluck('couleur');
-        $saisonnalites = Plante::distinct()->pluck('saisonnalite');
-        $origines = Plante::distinct()->pluck('origine');
-
-        // ... et ainsi de suite pour tous les champs
-        $plante = Plante::all();
-        return view('filter', compact('plantes', 'prix_ventes', 'types_plantes', 'niveaux_entretien', 'besoins_lumiere', 'couleurs', 'tailles', 'saisonnalites', 'origines', 'prix_min', 'prix_max'));
     }
 }
